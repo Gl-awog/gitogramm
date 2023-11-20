@@ -1,0 +1,103 @@
+[
+    {
+        "id":1,
+        "avatar":"/avatar/avatar1.png",
+        "username":"John Doe",
+        "stories":[
+            {
+                "title":"Vue.js",
+                "date":"15 may",
+                "text":"JavaScript framework for building interactive web applications JavaScript framework for building interactive web applications JavaScript framework for building interactive web applications",                               
+                "like":156000,
+                "fork":4,
+                "comments":[
+                    {"username":"Kathrine Reilly","text":"Enable performance measuring in production, at the user's request"},
+                    {"username":"Phil Hates","text":"Enable performance measuring in production once and for all"},
+                    {"username":"Camille","text":"transition-group with flex parent causes removed items to fly"},
+                    {"username":"Marselle","text":"transition-group with flex parent causes removed items to fly"},
+                    {"username":"Dorothey","text":"transition-group with flex parent causes removed items to fly"},
+                    {"username":"Fransoi","text":"transition-group with flex parent causes removed items to fly"},
+                    {"username":"Tim","text":"transition-group with flex parent causes removed items to fly"}
+                ]
+            },
+            {
+                "title":"Hear.js",
+                "date":"25 november",
+                "text":"JavaScript framework for building interactive web applications 2",                
+                "like":20030,
+                "fork":4,
+                "comments":[]
+            }
+        ]
+    },
+    {
+        "id":2,
+        "avatar":"/avatar/avatar2.png",
+        "username":"Kathrine Reilly",
+        "stories":[
+            {
+                "title":"React.js",
+                "date":"16 may",
+                "text":"Open source JavaScript library used for designing user interfaces",                
+                "like":174000,
+                "fork":50,
+                "comments":[
+                    {"username":"Kathrine Reilly","text":"How to implement multiple datasource without setPackagesToScan and without persistence.xml"},
+                    {"username":"Phil Hates","text":"jest: Test suite failed to run, Jest encountered an unexpected token - typescript react"},                   
+                    {"username":"Fransoi","text":"Method not found when emitting a custom signal, but the game seems to work when played"},
+                    {"username":"Tim","text":"Swiper parallax scrolling slider with concave 3d background effect"}
+                ]
+            },
+            {
+                "title":"Touch.js",
+                "date":"19 may",
+                "text":"JavaScript framework for building interactive web applications 2",                
+                "like":156000,
+                "fork":4,
+                "comments":[
+                    {"username":"Kathrine Reilly","text":"How to implement multiple datasource without setPackagesToScan and without persistence.xml"}
+                ]
+            }
+        ]
+    },
+    {
+        "id":3,
+        "avatar":"/avatar/avatar3.png",
+        "username":"Phil Hates"
+    },
+    {
+        "id":4,
+        "avatar":"/avatar/avatar4.png",
+        "username":"Tim Mcarmy"
+    },
+    {
+        "id":5,
+        "avatar":"/avatar/avatar5.png",
+        "username":"Tim Mcarmy"
+    },
+    {
+        "id":6,
+        "avatar":"/avatar/avatar6.png",
+        "username":"Tim Mcarmy"
+    },
+    {
+        "id":7,
+        "avatar":"/avatar/avatar7.png",
+        "username":"Tim Mcarmy"
+    },
+    {
+        "id":8,
+        "avatar":"/avatar/avatar8.png",
+        "username":"Tim Mcarmy"
+    },
+    {
+        "id":9,
+        "avatar":"/avatar/avatar9.png",
+        "username":"Tim Mcarmy"
+    },
+    {
+        "id":10,
+        "avatar":"/avatar/avatar1.png",
+        "username":"Tim Mcarmy"
+    }
+]

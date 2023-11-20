@@ -1,0 +1,42 @@
+body {
+    height: 100%;
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    color:#262626;
+}
+
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+   
+}
+
+.g-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+    
+}
+
+.g-container-narrow {
+    max-width: 980px;
+    margin:0 auto;
+    padding: 0 16px;
+}
+
+.g-header {
+    background: #FAFAFA;
+}
+
+.g-main {
+    top:1px solid #D3D3D3;
+    padding-top:32px;
+}
+
+strong {
+    font-weight: 700;
+}
