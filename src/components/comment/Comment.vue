@@ -1,6 +1,6 @@
 <template>
     <div class="comment">
-        <p><strong>{{ username }}</strong> {{ text }}</p>
+        <p><span class="comment__user">{{ username }}</span> {{ text }}</p>
     </div>
 </template>
 
@@ -23,5 +23,9 @@ export default {
 <style lang="scss" scoped>
 .comment {
     margin-bottom: 6px;
+
+    &__user {
+      font-weight: 700;
+    }
 }
 </style>

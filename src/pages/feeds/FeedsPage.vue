@@ -1,14 +1,14 @@
 <template>
   <Header>
-    <template #topline>
+    <template #s-topline>
       <Topline />
     </template>
-    <template #headerContent>
-      <div class="story-user-list">
-        <div class="story-user-list-wrapper">
-          <ul>
-            <li class="story-user-item" v-for="user in users" :key="user.id">
-              <StoryUserItem :avatar="user.avatar" :username="user.username" />
+    <template #s-bottomline>
+      <div class="user__list">
+        <div class="user__list-wrapper">
+          <ul class="user__list-inner">
+            <li class="user__list-item" v-for="user in users" :key="user.id">
+              <User :avatar="user.avatar" :username="user.username" />
             </li>
           </ul>
         </div>
@@ -17,30 +17,20 @@
   </Header>
   <main class="g-main">
     <div class="g-container-narrow">
-      <div class="story-list">
-        <ul>
-          <li class="story-item" v-for="{ id, username, avatar, stories } in users" :key="id">
-            <StoryItem :id="id" :username="username" :avatar="avatar" :storyIndex="0" v-if="stories">
-              <template #storyTitle>
-                {{ stories[0].title }}
-              </template>
-              <template #storyText>
-                {{ stories[0].text }}
-              </template>
-              <template #storyLike>{{ stories[0].like }}</template>
-              <template #storyFork>{{ stories[0].fork }}</template>
-              <template #storyComments v-if="stories[0].comments">
-                <div v-for="comment in stories[0].comments" :key="comment">
-                  <Comment :username="comment.username" :text="comment.text" />
-                </div>
-              </template>
-              <template #storyDate>
-                {{ stories[0].date }}
-              </template>
-            </StoryItem>
-          </li>
-        </ul>
-      </div>
+      <ul class="feeds-list">
+        <li class="feeds-item" v-for="item in usersWithStories" :key="item.id">
+          <Feed :username="item.username" :avatar="item.avatar" :date="item.stories[0].date" :storyIndex="0">
+            <template #s-story>
+              <Story :title="item.stories[0].title" :text="item.stories[0].text" :like="item.stories[0].like" :fork="item.stories[0].fork" />
+            </template>
+            <template #s-comments v-if="item.stories[0].comments">
+              <div v-for="comment in item.stories[0].comments" :key="comment">
+                <Comment :username="comment.username" :text="comment.text" />
+              </div>
+            </template>
+          </Feed>
+        </li>
+      </ul>
     </div>
   </main>
 </template>
@@ -48,30 +38,37 @@
 <script>
 import { Header } from '@/components/header'
 import { Topline } from '@/components/topline'
-import { StoryUserItem } from '@/components/storyUserItem'
-import { StoryItem } from '@/components/storyItem'
-import users from './user.json'
+import { User } from '@/components/user'
+import { Feed } from '@/components/feed'
 import { Comment } from '@/components/comment'
+import { Story } from '@/components/story'
+import users from './user.json'
 
 export default {
   name: 'FeedsPage',
   components: {
     Header,
     Topline,
-    StoryUserItem,
-    StoryItem,
-    Comment
+    User,
+    Comment,
+    Feed,
+    Story
   },
   data () {
     return {
       users
+    }
+  },
+  computed: {
+    usersWithStories () {
+      return this.users.filter(user => user.stories !== undefined && user.stories.length)
     }
   }
 }
 </script>
 
 <style lang="scss">
-.story-user-list {
+.user__list {
   margin: 30px 0 10px;
 
   ul {
@@ -79,15 +76,20 @@ export default {
     justify-content: space-between;
   }
 
-  .story-user-avatar {
+  .user__avatar {
     border-radius: 50%;
-    border: 2px solid #A6328D;
+    border: 2px solid transparent;
     margin-bottom: 10px;
     width: 92px;
     height: 92px;
     display: flex;
     align-items: center;
     box-sizing: border-box;
+    transition:border-color 0.3s;
+
+    &:hover {
+      border-color:#A6328D;
+    }
   }
 
   @media (max-width:1200px) {
@@ -119,23 +121,21 @@ export default {
 
   @media (max-width:900px) {
     ul {
-      gap:16px;
+      gap: 16px;
     }
   }
 
   @media (max-width:768px) {
     ul {
-      gap:12px;
+      gap: 12px;
     }
   }
 
   @media (max-width:425px) {
-  .story-user-avatar {
-    width: 72px;
-    height: 72px;
+    .user__avatar {
+      width: 72px;
+      height: 72px;
+    }
   }
 }
-
-}
-
 </style>

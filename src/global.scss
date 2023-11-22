@@ -3,7 +3,8 @@ body {
     min-height: 100vh;
     font-family: "Inter", sans-serif;
     font-size: 14px;
-    color:#262626;
+    color: #262626;
+    line-height: 1.33;
 }
 
 #app {
@@ -12,31 +13,44 @@ body {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-   
 }
 
 .g-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
-    
 }
 
 .g-container-narrow {
     max-width: 980px;
-    margin:0 auto;
+    margin: 0 auto;
     padding: 0 16px;
 }
 
 .g-header {
     background: #FAFAFA;
+    padding: 34px 0;
 }
 
 .g-main {
-    top:1px solid #D3D3D3;
-    padding-top:32px;
+    top: 1px solid #D3D3D3;
+    padding-top: 32px;
 }
 
-strong {
-    font-weight: 700;
+@media (max-width:900px) {
+    .g-header {
+        padding:20px 0;
+    }
+}
+
+@media (max-width:768px) {
+    .g-header {
+        padding:18px 0;
+    }
+}
+
+@media (max-width:425px) {
+    .g-header {
+        padding:14px 0 8px;
+    }
 }
