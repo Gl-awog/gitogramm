@@ -1,16 +1,14 @@
 <template>
     <div class="topline">
-        <!-- <div class="g-container"> -->
-            <Logo />
-            <div class="topline-navbar">
-                <span class="icon topline-navbar-icon" href="">
-                    <Icon name="Home" />
-                </span>
-                <span class="topline-navbar-icon"><img src="/avatar/avatar1.png" /></span>
-                <span class="icon topline-navbar-icon" href="">
-                    <Icon name="Logout" />
-                </span>
-            <!-- </div> -->
+        <Logo />
+        <div class="topline__navbar">
+            <span class="icon topline__navbar-icon" href="">
+                <Icon name="Home" />
+            </span>
+            <span class="topline__navbar-icon"><img src="/avatar/avatar1.png" /></span>
+            <span class="icon topline__navbar-icon" href="">
+                <Icon name="Logout" />
+            </span>
         </div>
     </div>
 </template>
@@ -28,25 +26,36 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.topline  {
+<style lang="scss">
+.topline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.topline {
     margin: 10px 0;
-}
 
-.topline-navbar {
-    margin-left: auto;
-    display: flex;
-    gap: 24px;
-    &-icon {
-        width: 32px;
-        img, svg {
-            max-width: 100%;
+    &__navbar {
+        margin-left: auto;
+        display: flex;
+        gap: 24px;
+
+        &-icon {
+            width: 32px;
+
+            img,
+            svg {
+                max-width: 100%;
+            }
+        }
+    }
+
+    @media (max-width:425px) {
+
+        .logo {
+            width: 100px;
+        }
+
+        &__navbar {
+            gap: 8px;
         }
     }
 }

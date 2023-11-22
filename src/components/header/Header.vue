@@ -1,11 +1,11 @@
 <template>
   <header class="g-header">
     <div class="g-container">
-      <div class="topline">
-        <slot name="topline"></slot>
-      </div>
-      <div class="bottomline" v-if="$slots.headerContent">
-        <slot name="headerContent"></slot>
+
+      <slot name="s-topline"></slot>
+
+      <div class="bottomline" v-if="$slots['s-bottomline']">
+        <slot name="s-bottomline"></slot>
       </div>
     </div>
   </header>
@@ -17,8 +17,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.g-header {
-  padding: 34px 0;
-}
-</style>
+<style lang="scss" scoped></style>

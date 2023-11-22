@@ -1,5 +1,5 @@
 <template>
-    <img src="../../assets/Logo.svg" alt="Gitogram" />
+    <img src="../../assets/Logo.svg" alt="Gitogram" class="logo" />
 </template>
 
 <script>
