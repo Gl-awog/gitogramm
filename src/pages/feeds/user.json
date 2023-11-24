@@ -63,7 +63,16 @@
     {
         "id":3,
         "avatar":"/avatar/avatar3.png",
-        "username":"Phil Hates"
+        "username":"Phil Hates",
+        "stories":[
+            {
+                "title":"Write.js",
+                "date":"01 January",
+                "text":"JavaScript framework for building interactive web applications JavaScript framework for building interactive web applications JavaScript framework for building interactive web applications",                               
+                "like":156000,
+                "fork":4
+            }
+        ]        
     },
     {
         "id":4,
