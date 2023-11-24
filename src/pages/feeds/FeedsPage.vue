@@ -19,14 +19,9 @@
     <div class="g-container-narrow">
       <ul class="feeds-list">
         <li class="feeds-item" v-for="item in usersWithStories" :key="item.id">
-          <Feed :username="item.username" :avatar="item.avatar" :date="item.stories[0].date" :storyIndex="0">
+          <Feed :username="item.username" :avatar="item.avatar" :date="item.stories[0].date" :comments="item.stories[0].comments" :storyIndex="0">
             <template #s-story>
               <Story :title="item.stories[0].title" :text="item.stories[0].text" :like="item.stories[0].like" :fork="item.stories[0].fork" />
-            </template>
-            <template #s-comments v-if="item.stories[0].comments">
-              <div v-for="comment in item.stories[0].comments" :key="comment">
-                <Comment :username="comment.username" :text="comment.text" />
-              </div>
             </template>
           </Feed>
         </li>
@@ -40,7 +35,6 @@ import { Header } from '@/components/header'
 import { Topline } from '@/components/topline'
 import { User } from '@/components/user'
 import { Feed } from '@/components/feed'
-import { Comment } from '@/components/comment'
 import { Story } from '@/components/story'
 import users from './user.json'
 
@@ -50,7 +44,6 @@ export default {
     Header,
     Topline,
     User,
-    Comment,
     Feed,
     Story
   },
