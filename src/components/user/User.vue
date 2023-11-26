@@ -32,9 +32,11 @@ export default {
 <style lang="scss" scoped>
 .user {
   &__avatar {
+    border-radius: 50%;
     img {
       max-width: 100%;
       margin: 0 auto;
+      border-radius: 50%;
     }
   }
 
