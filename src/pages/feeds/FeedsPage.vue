@@ -7,8 +7,8 @@
       <div class="user__list">
         <div class="user__list-wrapper">
           <ul class="user__list-inner">
-            <li class="user__list-item" v-for="user in users" :key="user.id">
-              <User :avatar="user.avatar" :username="user.username" />
+            <li class="user__list-item" v-for="item in repositories" :key="item.owner.id">
+              <User :avatar="item.owner.avatar_url" :username="item.owner.login" />
             </li>
           </ul>
         </div>
@@ -17,15 +17,27 @@
   </Header>
   <main class="g-main">
     <div class="g-container-narrow">
-      <ul class="feeds-list">
-        <li class="feeds-item" v-for="item in usersWithStories" :key="item.id">
-          <Feed :username="item.username" :avatar="item.avatar" :date="item.stories[0].date" :comments="item.stories[0].comments" :storyIndex="0">
+      <ul class="repo-list">
+        <li class="repo-item" v-for="item in repositories" :key="item.id">
+          <Feed :username="item.owner.login" :avatar="item.owner.avatar_url" :date="new Date(item.updated_at).toLocaleDateString()" :storyIndex="0">
             <template #s-story>
-              <Story :title="item.stories[0].title" :text="item.stories[0].text" :like="item.stories[0].like" :fork="item.stories[0].fork" />
+              <Story :title="item.name" :text="item.description" :like="item.stargazers_count"
+                :fork="item.forks" />
             </template>
           </Feed>
         </li>
       </ul>
+      <!-- <ul class="feeds-list">
+        <li class="feeds-item" v-for="item in usersWithStories" :key="item.id">
+          <Feed :username="item.username" :avatar="item.avatar" :date="item.stories[0].date"
+            :comments="item.stories[0].comments" :storyIndex="0">
+            <template #s-story>
+              <Story :title="item.stories[0].title" :text="item.stories[0].text" :like="item.stories[0].like"
+                :fork="item.stories[0].fork" />
+            </template>
+          </Feed>
+        </li>
+      </ul> -->
     </div>
   </main>
 </template>
@@ -37,6 +49,7 @@ import { User } from '@/components/user'
 import { Feed } from '@/components/feed'
 import { Story } from '@/components/story'
 import users from './user.json'
+import * as api from '../../api'
 
 export default {
   name: 'FeedsPage',
@@ -49,12 +62,21 @@ export default {
   },
   data () {
     return {
-      users
+      users,
+      repositories: []
     }
   },
   computed: {
     usersWithStories () {
       return this.users.filter(user => user.stories !== undefined && user.stories.length)
+    }
+  },
+  async created () {
+    try {
+      const { data } = await api.trendings.getTrendings()
+      this.repositories = data.items
+    } catch (error) {
+      console.error(error)
     }
   }
 }
@@ -78,10 +100,10 @@ export default {
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    transition:border-color 0.3s;
+    transition: border-color 0.3s;
 
     &:hover {
-      border-color:#A6328D;
+      border-color: #A6328D;
     }
   }
 

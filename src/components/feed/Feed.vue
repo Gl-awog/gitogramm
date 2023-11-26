@@ -92,15 +92,15 @@ export default {
     padding: 24px 20px 24px 20px;
     margin-bottom: 18px;
 
-    :deep(.story) p {
-      margin-bottom: 16px;
-    }
+    // :deep(.story) p {
+    //   margin-bottom: 16px;
+    // }
 
-    :deep(.story) h2 {
-      font-weight: 700;
-      font-size: 26px;
-      margin-bottom: 16px;
-    }
+    // :deep(.story) h2 {
+    //   font-weight: 700;
+    //   font-size: 26px;
+    //   margin-bottom: 16px;
+    // }
   }
 
   &__date {

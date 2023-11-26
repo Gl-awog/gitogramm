@@ -1,13 +1,13 @@
 <template>
-    <div class="story">
-        <h2>
-            {{ title }}
-        </h2>
-        <p>
-            {{ text }}
-        </p>
-        <Stats :like="like" :fork="fork" />
-    </div>
+  <div class="story">
+    <h2>
+      {{ title }}
+    </h2>
+    <p>
+      {{ text }}
+    </p>
+    <Stats :like="like" :fork="fork" />
+  </div>
 </template>
 
 <script>
@@ -38,3 +38,17 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.story {
+  p {
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+}
+</style>
