@@ -14,6 +14,6 @@ export const defaultView = () => ({
   template: '<User username="Tim" avatar="/avatar/avatar1.png" />'
 })
 
-defaultView.Story = {
+defaultView.story = {
   name: 'Стандартный вид'
 }

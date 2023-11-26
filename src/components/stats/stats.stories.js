@@ -14,6 +14,6 @@ export const defaultView = () => ({
   template: '<Stats like="1111" fork="2222" />'
 })
 
-defaultView.Stats = {
+defaultView.story = {
   name: 'Стандартный вид'
 }

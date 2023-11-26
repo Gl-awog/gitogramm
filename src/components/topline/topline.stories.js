@@ -14,6 +14,6 @@ export const defaultView = () => ({
   template: '<Topline />'
 })
 
-defaultView.Topline = {
+defaultView.story = {
   name: 'Стандартный вид'
 }

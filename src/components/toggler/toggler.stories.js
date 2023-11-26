@@ -14,6 +14,6 @@ export const defaultView = () => ({
   template: '<Toggler />'
 })
 
-defaultView.Toggler = {
+defaultView.story = {
   name: 'Стандартный вид'
 }
