@@ -1,7 +1,8 @@
 <template>
   <div class="user">
     <div class="user__avatar ">
-      <img :src="`${imgHost}${avatar}`" :alt="username" />
+      <!-- <img :src="`${imgHost}${avatar}`" :alt="username" /> -->
+      <img :src="avatar" :alt="username" />
     </div>
     <div class="user__name">{{ username }}</div>
   </div>
@@ -19,12 +20,12 @@ export default {
       type: String,
       required: true
     }
-  },
-  data () {
-    return {
-      imgHost: location.origin
-    }
   }
+  // data () {
+  //   return {
+  //     imgHost: location.origin
+  //   }
+  // }
 }
 </script>
 

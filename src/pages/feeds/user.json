@@ -1,7 +1,7 @@
 [
     {
         "id":1,
-        "avatar":"/avatar/avatar1.png",
+        "avatar":"avatar/avatar1.png",
         "username":"John Doe",
         "stories":[
             {
@@ -32,7 +32,7 @@
     },
     {
         "id":2,
-        "avatar":"/avatar/avatar2.png",
+        "avatar":"avatar/avatar2.png",
         "username":"Kathrine Reilly",
         "stories":[
             {
@@ -62,7 +62,7 @@
     },
     {
         "id":3,
-        "avatar":"/avatar/avatar3.png",
+        "avatar":"avatar/avatar3.png",
         "username":"Phil Hates",
         "stories":[
             {
@@ -76,37 +76,37 @@
     },
     {
         "id":4,
-        "avatar":"/avatar/avatar4.png",
+        "avatar":"avatar/avatar4.png",
         "username":"Tim Mcarmy"
     },
     {
         "id":5,
-        "avatar":"/avatar/avatar5.png",
+        "avatar":"avatar/avatar5.png",
         "username":"Tim Mcarmy"
     },
     {
         "id":6,
-        "avatar":"/avatar/avatar6.png",
+        "avatar":"avatar/avatar6.png",
         "username":"Tim Mcarmy"
     },
     {
         "id":7,
-        "avatar":"/avatar/avatar7.png",
+        "avatar":"avatar/avatar7.png",
         "username":"Tim Mcarmy"
     },
     {
         "id":8,
-        "avatar":"/avatar/avatar8.png",
+        "avatar":"avatar/avatar8.png",
         "username":"Tim Mcarmy"
     },
     {
         "id":9,
-        "avatar":"/avatar/avatar9.png",
+        "avatar":"avatar/avatar9.png",
         "username":"Tim Mcarmy"
     },
     {
         "id":10,
-        "avatar":"/avatar/avatar1.png",
+        "avatar":"avatar/avatar1.png",
         "username":"Tim Mcarmy"
     }
 ]
