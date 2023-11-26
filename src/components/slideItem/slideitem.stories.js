@@ -28,5 +28,5 @@ defaultView.story = {
 
 defaultView.args = {
   avatar: '/avatar/avatar1.png',
-  username:'Tim'
+  username: 'Tim'
 }

@@ -6,28 +6,28 @@
 
 <script>
 export default {
-    name: 'SlideProgress',    
-    data() {
-        return {
-            isActive: false
-        }
-    },
-    emits: ["onFinish"],
-    methods: {
-        emitOnFinish() {
-            this.$emit('onFinish')
-        }
-    },
-    mounted() {       
-        this.$nextTick(() => {
-            this.isActive = true
-        })
-
-        this.$refs.indicator.addEventListener("transitionend", this.emitOnFinish)
-    },
-    beforeUnmount() {
-        this.$refs.indicator.removeEventListener("transitionend", this.emitOnFinish)
+  name: 'SlideProgress',
+  data () {
+    return {
+      isActive: false
     }
+  },
+  emits: ['onFinish'],
+  methods: {
+    emitOnFinish () {
+      this.$emit('onFinish')
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.isActive = true
+    })
+
+    this.$refs.indicator.addEventListener('transitionend', this.emitOnFinish)
+  },
+  beforeUnmount () {
+    this.$refs.indicator.removeEventListener('transitionend', this.emitOnFinish)
+  }
 }
 </script>
 

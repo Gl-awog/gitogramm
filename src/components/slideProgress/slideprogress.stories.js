@@ -7,8 +7,8 @@ export default {
   },
   argTypes: {
     onFinish: {
-        action: "onFinish",
-        description:"fires when progress is 100%"
+      action: 'onFinish',
+      description: 'fires when progress is 100%'
     }
   }
 }

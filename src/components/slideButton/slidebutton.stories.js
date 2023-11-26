@@ -16,7 +16,7 @@ export const defaultView = (args) => ({
   components: {
     SlideButton
   },
-  data() {
+  data () {
     return { args }
   },
   template: '<SlideButton v-bind="args">Follow</SlideButton>'

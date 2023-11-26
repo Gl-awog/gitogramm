@@ -21,18 +21,18 @@ import { SlideProgress } from '../slideProgress'
 import { SlideButton } from '../slideButton'
 
 export default {
-    name: 'SlideItem',
-    components: { SlideProgress, SlideButton, User },
-    props: {
-        avatar: {
-            type: String,
-            required: false
-        },
-        username: {
-            type: String,
-            required: true
-        }
+  name: 'SlideItem',
+  components: { SlideProgress, SlideButton, User },
+  props: {
+    avatar: {
+      type: String,
+      required: false
+    },
+    username: {
+      type: String,
+      required: true
     }
+  }
 }
 </script>
 
