@@ -20,7 +20,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.isActive = true
+      setTimeout(() => { this.isActive = true }, 0)
     })
 
     this.$refs.indicator.addEventListener('transitionend', this.emitOnFinish)
@@ -42,7 +42,7 @@ export default {
     &__inner {
         height: 100%;
         background: #31AE54;
-        transition: width 5s linear 5s;
+        transition: width 5s linear;
         width: 0%;
         position: absolute;
         left: 0;
