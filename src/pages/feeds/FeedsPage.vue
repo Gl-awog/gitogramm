@@ -19,7 +19,7 @@
     <div class="g-container-narrow">
       <ul class="repo-list">
         <li class="repo-item" v-for="item in repositories" :key="item.id">
-          <Feed :username="item.owner.login" :avatar="item.owner.avatar_url" :date="new Date(item.updated_at).toLocaleDateString()" :storyIndex="0">
+          <Feed :username="item.owner.login" :avatar="item.owner.avatar_url" :date="convertDateToReadable(item.updated_at)" :storyIndex="0">
             <template #s-story>
               <Story :title="item.name" :text="item.description" :like="item.stargazers_count"
                 :fork="item.forks" />
@@ -50,6 +50,7 @@ import { Feed } from '@/components/feed'
 import { Story } from '@/components/story'
 import users from './user.json'
 import * as api from '../../api'
+import { convertDateToReadable } from '@/helpers/helpers'
 
 export default {
   name: 'FeedsPage',
@@ -65,6 +66,9 @@ export default {
       users,
       repositories: []
     }
+  },
+  methods: {
+    convertDateToReadable
   },
   computed: {
     usersWithStories () {
