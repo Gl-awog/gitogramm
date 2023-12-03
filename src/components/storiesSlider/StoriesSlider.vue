@@ -11,7 +11,7 @@
 
 <script>
 import { SlideItem } from '../slideItem'
-// import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'StoriesSlider',
@@ -26,22 +26,22 @@ export default {
     return {}
   },
   computed: {
-    // ...mapState({
-    //   trendings: state => state.trendings.data
-    // })
+    ...mapState({
+      trendings: state => state.trendings.data
+    })
   },
   methods: {
-    // ...mapActions({
-    //   fetchTrendings: 'trendings/fetchTrendings'
-    // })
-    // getStoryData (obj) {
-    //   return {
-    //     id: obj.id,
-    //     avatar: obj.owner?.avatar_url,
-    //     username: obj.owner?.login,
-    //     content: obj.readme
-    //   }
-    // }
+    ...mapActions({
+      fetchTrendings: 'trendings/fetchTrendings'
+    }),
+    getStoryData (obj) {
+      return {
+        id: obj.id,
+        avatar: obj.owner?.avatar_url,
+        username: obj.owner?.login,
+        content: obj.readme
+      }
+    }
   }
   // async created () {
   //   await this.fetchTrendings()
