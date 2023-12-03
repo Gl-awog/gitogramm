@@ -27,17 +27,6 @@
           </Feed>
         </li>
       </ul>
-      <!-- <ul class="feeds-list">
-        <li class="feeds-item" v-for="item in usersWithStories" :key="item.id">
-          <Feed :username="item.username" :avatar="item.avatar" :date="item.stories[0].date"
-            :comments="item.stories[0].comments" :storyIndex="0">
-            <template #s-story>
-              <Story :title="item.stories[0].title" :text="item.stories[0].text" :like="item.stories[0].like"
-                :fork="item.stories[0].fork" />
-            </template>
-          </Feed>
-        </li>
-      </ul> -->
     </div>
   </main>
 </template>
@@ -48,7 +37,7 @@ import { Topline } from '@/components/topline'
 import { User } from '@/components/user'
 import { Feed } from '@/components/feed'
 import { Story } from '@/components/story'
-import users from './user.json'
+// import users from './user.json'
 import * as api from '../../api'
 import { convertDateToReadable } from '@/helpers/helpers'
 
@@ -63,7 +52,7 @@ export default {
   },
   data () {
     return {
-      users,
+      // users,
       repositories: []
     }
   },
@@ -71,9 +60,9 @@ export default {
     convertDateToReadable
   },
   computed: {
-    usersWithStories () {
-      return this.users.filter(user => user.stories !== undefined && user.stories.length)
-    }
+    // usersWithStories () {
+    //   return this.users.filter(user => user.stories !== undefined && user.stories.length)
+    // }
   },
   async created () {
     try {

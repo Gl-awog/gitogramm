@@ -37,6 +37,11 @@ body {
     padding-top: 32px;
 }
 
+h1 {
+    font-size: 72px;
+    font-weight: 700;
+}
+
 @media (max-width:900px) {
     .g-header {
         padding:20px 0;
@@ -54,3 +59,5 @@ body {
         padding:14px 0 8px;
     }
 }
+
+
