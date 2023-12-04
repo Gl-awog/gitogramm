@@ -7,7 +7,7 @@
       <div class="user__list">
         <div class="user__list-wrapper">
           <ul class="user__list-inner">
-            <li class="user__list-item" v-for="item in repositories" :key="item.owner.id">
+            <li class="user__list-item" v-for="item in trendings" :key="item.owner.id">
               <User :avatar="item.owner.avatar_url" :username="item.owner.login" />
             </li>
           </ul>
@@ -17,8 +17,14 @@
   </Header>
   <main class="g-main">
     <div class="g-container-narrow">
-      <ul class="repo-list">
-        <li class="repo-item" v-for="item in repositories" :key="item.id">
+      <div class="g-main__loader" v-if="trendingsIsLoading">
+        <Spinner />
+      </div>
+      <div class="g-main__error" v-else-if="trendingsError">
+        {{ trendingsError }}
+      </div>
+      <ul class="repo-list" v-else>
+        <li class="repo-item" v-for="item in trendings" :key="item.id">
           <Feed :username="item.owner.login" :avatar="item.owner.avatar_url" :date="convertDateToReadable(item.updated_at)" :storyIndex="0">
             <template #s-story>
               <Story :title="item.name" :text="item.description" :like="item.stargazers_count"
@@ -37,9 +43,10 @@ import { Topline } from '@/components/topline'
 import { User } from '@/components/user'
 import { Feed } from '@/components/feed'
 import { Story } from '@/components/story'
-// import users from './user.json'
-import * as api from '../../api'
+// import * as api from '../../api'
 import { convertDateToReadable } from '@/helpers/helpers'
+import { mapActions, mapState } from 'vuex'
+import { Spinner } from '@/components/spinner'
 
 export default {
   name: 'FeedsPage',
@@ -48,30 +55,38 @@ export default {
     Topline,
     User,
     Feed,
-    Story
+    Story,
+    Spinner
   },
   data () {
     return {
-      // users,
-      repositories: []
+      // repositories: []
     }
   },
   methods: {
-    convertDateToReadable
+    convertDateToReadable,
+    ...mapActions({
+      fetchTrendings: 'trendings/fetchTrendings'
+    })
   },
   computed: {
-    // usersWithStories () {
-    //   return this.users.filter(user => user.stories !== undefined && user.stories.length)
-    // }
+    ...mapState({
+      trendings: (state) => state.trendings.posts.data,
+      trendingsIsLoading: (state) => state.trendings.posts.isLoading,
+      trendingsError: (state) => state.trendings.posts.error
+    })
   },
-  async created () {
-    try {
-      const { data } = await api.trendings.getTrendings()
-      this.repositories = data.items
-    } catch (error) {
-      console.error(error)
-    }
+  mounted () {
+    this.fetchTrendings()
   }
+  // async created () {
+  //   try {
+  //     const { data } = await api.trendings.getTrendings()
+  //     this.repositories = data.items
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
 }
 </script>
 

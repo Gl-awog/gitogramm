@@ -4,7 +4,6 @@
             <SlideProgress :active="isActive" />
         </div>
         <div class="slide-item__user">
-            <!-- <User :username="username" :avatar="avatar" /> -->
             <User :username="data.username" :avatar="data.avatar" />
         </div>
         <div class="slide-item__body">
@@ -22,8 +21,8 @@
             <SlideButton>Follow</SlideButton>
         </div>
         <nav class="slide-item__nav" v-if="isActive">
-            <div class="slide-item__nav-prev">&lt;</div>
-            <div class="slide-item__nav-next">&gt;</div>
+            <div class="slide-item__nav-prev" v-if="btnsShown.includes('prev')" @click="$emit('onPrevSlide')">&lt;</div>
+            <div class="slide-item__nav-next" v-if="btnsShown.includes('next')" @click="$emit('onNextSlide')">&gt;</div>
         </nav>
     </article>
 </template>
@@ -38,6 +37,10 @@ import { Placeholder } from '../placeholder'
 export default {
   name: 'SlideItem',
   components: { SlideProgress, SlideButton, User, Spinner, Placeholder },
+  emits: [
+    'onPrevSlide',
+    'onNextSlide'
+  ],
   props: {
     isActive: {
       type: Boolean,
@@ -46,18 +49,17 @@ export default {
     isLoading: {
       type: Boolean
     },
+    btnsShown: {
+      type: Array,
+      default: () => ['prev', 'next'],
+      validator (value) {
+        return value.every((item) => item === 'next' || item === 'prev')
+      }
+    },
     data: {
       type: Object,
       required: true,
       default: () => ({})
-    },
-    avatar: {
-      type: String,
-      required: false
-    },
-    username: {
-      type: String,
-      required: true
     }
   }
 }
@@ -66,7 +68,10 @@ export default {
 <style lang="scss">
 .slide-item {
     padding: 8px 0;
-    position: relative;
+
+    &.active {
+        position: relative;
+    }
 
     &__body {
         border-top: 1px solid #CACACA;
@@ -127,6 +132,7 @@ export default {
         left: 50%;
         transform: translate(-50%, -50%);
         height: 36px;
+        z-index: 1;
 
         &-next,
         &-prev {

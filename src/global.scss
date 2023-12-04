@@ -35,6 +35,13 @@ body {
 .g-main {
     top: 1px solid #D3D3D3;
     padding-top: 32px;
+
+    &__loader {
+        height: 500px;
+        display: flex;
+        align-items: center;
+        justify-content:center;
+    }
 }
 
 h1 {

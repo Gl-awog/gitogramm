@@ -1,9 +1,10 @@
 <template>
   <div class="stories-slider">
-    <ul class="stories-slider__list">
-      <li class="stories-slider__item" :class="{ 'active': isActive }">
-        <!-- <pre>{{ trendings }}</pre> -->
-        <SlideItem isActive />
+    <ul class="stories-slider__list" ref="slider">
+      <li class="stories-slider__item" ref="sliderItem" :class="{ 'active': slideActiveIdx === idx }" v-for="(item, idx) in trendings"
+        :key="item.id">
+        <SlideItem :isActive="slideActiveIdx === idx" :data="getStoryData(item)" :btnsShown="activeBtns"
+          @onNextSlide="handleSlideClick(slideActiveIdx + 1)" @onPrevSlide="handleSlideClick(slideActiveIdx - 1)" />
       </li>
     </ul>
   </div>
@@ -23,16 +24,25 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      slideActiveIdx: 0,
+      sliderPosition: 0
+    }
   },
   computed: {
     ...mapState({
-      trendings: state => state.trendings.data
-    })
+      trendings: (state) => state.trendings.posts.data
+    }),
+    activeBtns () {
+      if (this.slideActiveIdx === 0) return ['next']
+      if (this.slideActiveIdx === this.trendings.length - 1) return ['prev']
+      return ['prev', 'next']
+    }
   },
   methods: {
     ...mapActions({
-      fetchTrendings: 'trendings/fetchTrendings'
+      fetchTrendings: 'trendings/fetchTrendings',
+      fetchReadme: 'trendings/fetchReadme'
     }),
     getStoryData (obj) {
       return {
@@ -41,28 +51,62 @@ export default {
         username: obj.owner?.login,
         content: obj.readme
       }
+    },
+    async fetchActiveSlideReadme () {
+      const { id, owner, name } = this.trendings[this.slideActiveIdx]
+      await this.fetchReadme({ id, owner: owner.login, repo: name })
+    },
+    moveSlider (slideIdx) {
+      const { slider, sliderItem } = this.$refs
+      const slideWidth = parseInt(
+        getComputedStyle(sliderItem[this.slideActiveIdx]).getPropertyValue('width'), 10
+      )
+      this.slideActiveIdx = slideIdx
+      this.sliderPosition = -(slideWidth * slideIdx)
+      slider.style.transform = `translateX(${this.sliderPosition}px)`
+    },
+    async loadReadme () {
+      await this.fetchActiveSlideReadme()
+    },
+    async handleSlideClick (slideIdx) {
+      this.moveSlider(slideIdx)
+      await this.loadReadme()
     }
+  },
+  async created () {
+    await this.fetchTrendings()
+    await this.loadReadme()
   }
-  // async created () {
-  //   await this.fetchTrendings()
-  // }
 }
 </script>
 
 <style lang="scss">
 .stories-slider {
+  overflow: hidden;
+  position: relative;
+  height: 667px;
+
   &__list {
     font-size: inherit;
+    display: flex;
+    align-items: center;
+    width: auto;
+    position: absolute;
+    left: 50%;
+    margin-left: -188px;
+    transition: all 0.3s;
   }
 
   &__item {
     background: #ffffff;
     border-radius: 6px;
-    width:375px;
+    width: 375px;
     min-height: 667px;
+    flex-shrink: 0;
     display: flex;
-    transition:all 0.3s;
-    transform:scale(0.87);
+    transition: all 0.3s;
+    transform: scale(0.87);
+    position: relative;
 
     .slide-item {
       width: 100%;
@@ -75,9 +119,8 @@ export default {
     }
 
     &.active {
-      // min-height: 667px;
-      // max-width: 375px;
       transform: scale(1);
+      z-index: 100;
     }
   }
 }
