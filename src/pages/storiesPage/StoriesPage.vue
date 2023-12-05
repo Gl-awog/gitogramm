@@ -11,7 +11,7 @@
             </template>
         </Header>
         <main class="g-main">
-            <StoriesSlider  />
+            <StoriesSlider :initialSlide="Number($route.params.initialSlide)" />
         </main>
     </div>
 </template>

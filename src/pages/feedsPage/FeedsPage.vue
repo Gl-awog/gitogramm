@@ -7,8 +7,8 @@
       <div class="user__list">
         <div class="user__list-wrapper">
           <ul class="user__list-inner">
-            <li class="user__list-item" v-for="item in trendings" :key="item.owner.id">
-              <User :avatar="item.owner.avatar_url" :username="item.owner.login" @onClick="$router.push('/stories')" />
+            <li class="user__list-item" v-for="{id,owner} in trendings" :key="owner.id">
+              <User :avatar="owner.avatar_url" :username="owner.login" @click="$router.push({name:'storiesSlide',params:{initialSlide:id}})" />
             </li>
           </ul>
         </div>

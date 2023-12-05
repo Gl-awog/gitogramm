@@ -27,11 +27,11 @@ export default {
     isActive: {
       type: Boolean,
       default: false
+    },
+    initialSlide: {
+      type: Number,
+      default: 0
     }
-    // initialSlide: {
-    //   type: Number,
-    //   default:0
-    // }
   },
   data () {
     return {
@@ -92,19 +92,19 @@ export default {
       }
     },
     async handleSlideClick (slideIdx) {
-      if (slideIdx > 0 && slideIdx <= this.$refs.sliderItem.length) {
+      if (slideIdx >= 0 && slideIdx <= this.$refs.sliderItem.length) {
         this.moveSlider(slideIdx)
         await this.loadReadme()
       }
     }
   },
   async mounted () {
-    // if (this.initialSlide) {
-    //   const idx = this.trendings.findIndex(item => item.id === this.initialSlide)
-    //   await this.handleSlideClick(idx)
-    // }
-
-    await this.fetchTrendings()
+    await this.fetchTrendings().then(() => {
+      if (this.initialSlide) {
+        const ndx = this.trendings.findIndex((item) => item.id === this.initialSlide)
+        this.handleSlideClick(ndx)
+      }
+    })
     await this.loadReadme()
   }
 }

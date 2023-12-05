@@ -24,8 +24,8 @@ export default {
       this.$emit('onFinish')
     }
   },
-  mounted () {
-    this.$nextTick(() => {
+  async mounted () {
+    await this.$nextTick().then(() => {
       setTimeout(() => { this.active = true }, 0)
     })
 
