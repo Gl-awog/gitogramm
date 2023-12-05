@@ -24,8 +24,7 @@ export default {
       required: true
     },
     text: {
-      type: String,
-      required: true
+      type: String
     },
     like: {
       type: Number,

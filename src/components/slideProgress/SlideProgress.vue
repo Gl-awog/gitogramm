@@ -9,7 +9,13 @@ export default {
   name: 'SlideProgress',
   data () {
     return {
-      isActive: false
+      active: this.isActive
+    }
+  },
+  props: {
+    isActive: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['onFinish'],
@@ -18,9 +24,9 @@ export default {
       this.$emit('onFinish')
     }
   },
-  mounted () {
-    this.$nextTick(() => {
-      setTimeout(() => { this.isActive = true }, 0)
+  async mounted () {
+    await this.$nextTick().then(() => {
+      setTimeout(() => { this.active = true }, 0)
     })
 
     this.$refs.indicator.addEventListener('transitionend', this.emitOnFinish)
@@ -42,7 +48,6 @@ export default {
     &__inner {
         height: 100%;
         background: #31AE54;
-        transition: width 5s linear;
         width: 0%;
         position: absolute;
         left: 0;
@@ -51,6 +56,7 @@ export default {
 
     &.active &__inner {
         width: 100%;
+        transition: width 5s linear;
     }
 }
 </style>

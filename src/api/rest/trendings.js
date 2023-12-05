@@ -4,7 +4,7 @@ import { addLeadingZero } from '@/helpers/helpers'
 export const getTrendings = (lang = 'javascript') => {
   const params = new URLSearchParams()
 
-  const weekMS = 7 * 24 * 60 * 60 * 1000
+  const weekMS = 70 * 24 * 60 * 60 * 1000
   const weekAgo = new Date(Date.now() - weekMS)
 
   const formattedDate = [
