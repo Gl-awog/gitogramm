@@ -13,6 +13,11 @@ export default [
     name: 'stories',
     component: StoriesPage
   },
+  // {
+  //   path: '/stories/:initialSlide',
+  //   name: 'stories',
+  //   component: StoriesPage
+  // },
   {
     path: '/:pathMatch(.*)',
     component: Page404

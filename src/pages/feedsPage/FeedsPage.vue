@@ -8,7 +8,7 @@
         <div class="user__list-wrapper">
           <ul class="user__list-inner">
             <li class="user__list-item" v-for="item in trendings" :key="item.owner.id">
-              <User :avatar="item.owner.avatar_url" :username="item.owner.login" />
+              <User :avatar="item.owner.avatar_url" :username="item.owner.login" @onClick="$router.push('/stories')" />
             </li>
           </ul>
         </div>

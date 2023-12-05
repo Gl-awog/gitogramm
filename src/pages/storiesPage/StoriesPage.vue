@@ -11,7 +11,7 @@
             </template>
         </Header>
         <main class="g-main">
-            <StoriesSlider />
+            <StoriesSlider  />
         </main>
     </div>
 </template>

@@ -8,7 +8,9 @@ export const trendings = {
       isLoading: false,
       error: ''
     },
-    readme: {}
+    readme: {
+      data: {}
+    }
   },
   getters: {
     getRepoById: (state) => (id) =>
@@ -23,10 +25,15 @@ export const trendings = {
     },
     SET_TRENDINGS_ERROR: (state, payload) => {
       state.posts.error = payload
+    },
+    SET_README: (state, payload) => {
+      state.posts.data = state.posts.data.map((repo) => {
+        if (payload.id === repo.id) {
+          repo.readme = payload.content
+        }
+        return repo
+      })
     }
-    // SET_README: (state, payload) => {
-    //  state.data
-    // }
   },
   actions: {
     async fetchTrendings ({ commit }) {
@@ -34,7 +41,7 @@ export const trendings = {
       try {
         const { data } = await api.trendings.getTrendings()
         commit('SET_TRENDINGS_DATA', data.items)
-        console.log(data.items)
+        // console.log(data.items)
       } catch (error) {
         commit('SET_TRENDINGS_ERROR', error)
         // throw error;
@@ -43,10 +50,14 @@ export const trendings = {
       }
     },
 
-    async fetchReadme (store, { id, owner, repo }) {
+    async fetchReadme ({ commit, getters }, { id, owner, repo }) {
+      const currentRepo = getters.getRepoById(id)
+      if (currentRepo.readme !== undefined) return
+
       try {
         const { data } = await api.readme.getReadme({ owner, repo })
-        console.log(data)
+        commit('SET_README', { id, content: data })
+        // console.log(data)
       } catch (error) {
         console.log(error)
         throw error

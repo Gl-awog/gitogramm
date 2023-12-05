@@ -3,8 +3,14 @@
     <ul class="stories-slider__list" ref="slider">
       <li class="stories-slider__item" ref="sliderItem" :class="{ 'active': slideActiveIdx === idx }" v-for="(item, idx) in trendings"
         :key="item.id">
-        <SlideItem :isActive="slideActiveIdx === idx" :data="getStoryData(item)" :btnsShown="activeBtns"
-          @onNextSlide="handleSlideClick(slideActiveIdx + 1)" @onPrevSlide="handleSlideClick(slideActiveIdx - 1)" />
+        <SlideItem :isActive="slideActiveIdx === idx"
+        :data="getStoryData(item)"
+        :btnsShown="activeBtns"
+        :isLoading="slideActiveIdx === idx && loading"
+        @onNextSlide="handleSlideClick(slideActiveIdx + 1)"
+        @onPrevSlide="handleSlideClick(slideActiveIdx - 1)"
+        @onProgressFinish="handleSlideClick(slideActiveIdx + 1)"
+         />
       </li>
     </ul>
   </div>
@@ -22,11 +28,17 @@ export default {
       type: Boolean,
       default: false
     }
+    // initialSlide: {
+    //   type: Number,
+    //   default:0
+    // }
   },
   data () {
     return {
       slideActiveIdx: 0,
-      sliderPosition: 0
+      sliderPosition: 0,
+      loading: false,
+      btnsShown: true
     }
   },
   computed: {
@@ -34,6 +46,7 @@ export default {
       trendings: (state) => state.trendings.posts.data
     }),
     activeBtns () {
+      if (!this.btnsShown) return []
       if (this.slideActiveIdx === 0) return ['next']
       if (this.slideActiveIdx === this.trendings.length - 1) return ['prev']
       return ['prev', 'next']
@@ -49,7 +62,7 @@ export default {
         id: obj.id,
         avatar: obj.owner?.avatar_url,
         username: obj.owner?.login,
-        content: obj.readme
+        readme: obj.readme
       }
     },
     async fetchActiveSlideReadme () {
@@ -66,14 +79,31 @@ export default {
       slider.style.transform = `translateX(${this.sliderPosition}px)`
     },
     async loadReadme () {
-      await this.fetchActiveSlideReadme()
+      this.loading = true
+      this.btnsShown = false
+      try {
+        await this.fetchActiveSlideReadme()
+      } catch (e) {
+        console.log(e)
+        throw e
+      } finally {
+        this.loading = false
+        this.btnsShown = true
+      }
     },
     async handleSlideClick (slideIdx) {
-      this.moveSlider(slideIdx)
-      await this.loadReadme()
+      if (slideIdx > 0 && slideIdx <= this.$refs.sliderItem.length) {
+        this.moveSlider(slideIdx)
+        await this.loadReadme()
+      }
     }
   },
-  async created () {
+  async mounted () {
+    // if (this.initialSlide) {
+    //   const idx = this.trendings.findIndex(item => item.id === this.initialSlide)
+    //   await this.handleSlideClick(idx)
+    // }
+
     await this.fetchTrendings()
     await this.loadReadme()
   }

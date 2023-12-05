@@ -1,7 +1,7 @@
 <template>
     <article class="slide-item" :class="{ 'active': isActive }">
         <div class="slide-item__progress">
-            <SlideProgress :active="isActive" />
+            <SlideProgress :isActive="isActive" @onFinish="$emit('onProgressFinish')"/>
         </div>
         <div class="slide-item__user">
             <User :username="data.username" :avatar="data.avatar" />
@@ -11,8 +11,7 @@
                 <Spinner />
             </div>
             <div class="slide-item__content" v-else>
-                <div class="slide-item__content-loaded" v-if="data.content?.length">
-                    {{ data.content }}
+                <div class="slide-item__content-loaded" v-if="data.readme" v-html="data.readme">
                 </div>
                 <Placeholder v-else :paragraphs="2" />
             </div>
@@ -39,7 +38,8 @@ export default {
   components: { SlideProgress, SlideButton, User, Spinner, Placeholder },
   emits: [
     'onPrevSlide',
-    'onNextSlide'
+    'onNextSlide',
+    'onProgressFinish'
   ],
   props: {
     isActive: {
@@ -79,6 +79,17 @@ export default {
         min-height: 100px;
         padding: 18px 18px;
         box-sizing: border-box;
+        max-height: 500px;
+        overflow:hidden;
+        overflow-y: auto;
+        text-align: left;
+    }
+
+    &__content {
+        h1 {
+            font-size: 24px;
+            text-align: center;
+        }
     }
 
     &__progress {
