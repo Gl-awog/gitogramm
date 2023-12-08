@@ -1,7 +1,7 @@
 <template>
     <article class="slide-item" :class="{ 'active': isActive }">
         <div class="slide-item__progress">
-            <SlideProgress :isActive="isActive" @onFinish="$emit('onProgressFinish')"/>
+            <SlideProgress :isActive="isActive && !isLoading" @onFinish="$emit('onProgressFinish')" />
         </div>
         <div class="slide-item__user">
             <User :username="data.username" :avatar="data.avatar" />
@@ -20,8 +20,12 @@
             <SlideButton>Follow</SlideButton>
         </div>
         <nav class="slide-item__nav" v-if="isActive">
-            <div class="slide-item__nav-prev" v-if="btnsShown.includes('prev')" @click="$emit('onPrevSlide')">&lt;</div>
-            <div class="slide-item__nav-next" v-if="btnsShown.includes('next')" @click="$emit('onNextSlide')">&gt;</div>
+            <div class="slide-item__nav-prev" v-if="btnsShown.includes('prev')" @click="$emit('onPrevSlide')">
+                <Icon name="SlideArrow" />
+            </div>
+            <div class="slide-item__nav-next" v-if="btnsShown.includes('next')" @click="$emit('onNextSlide')">
+                <Icon name="SlideArrow" />
+            </div>
         </nav>
     </article>
 </template>
@@ -32,10 +36,11 @@ import { SlideProgress } from '../slideProgress'
 import { SlideButton } from '../slideButton'
 import { Spinner } from '../spinner'
 import { Placeholder } from '../placeholder'
+import { Icon } from '../../icons'
 
 export default {
   name: 'SlideItem',
-  components: { SlideProgress, SlideButton, User, Spinner, Placeholder },
+  components: { SlideProgress, SlideButton, User, Spinner, Placeholder, Icon },
   emits: [
     'onPrevSlide',
     'onNextSlide',
@@ -80,7 +85,7 @@ export default {
         padding: 18px 18px;
         box-sizing: border-box;
         max-height: 500px;
-        overflow:hidden;
+        overflow: hidden;
         overflow-y: auto;
         text-align: left;
     }
@@ -158,7 +163,11 @@ export default {
             justify-content: center;
             position: absolute;
             user-select: none;
-            cursor: pointer
+            cursor: pointer;
+
+            svg:hover {
+                color: #31AE54;
+            }
         }
 
         &-prev {
@@ -169,7 +178,16 @@ export default {
         &-next {
             right: 0;
             top: 0;
+
+            svg {
+                transform: rotate(-180deg);
+            }
         }
     }
-}
-</style>
+
+    @media (max-width:768px) {
+        &__nav {
+            width: calc(100% + 18px * 2);
+        }
+    }
+}</style>

@@ -3,7 +3,7 @@
         <Header>
             <template #s-topline>
                 <div class="toprow">
-                    <Logo />
+                    <Logo class="toprow__logo" />
                     <button class="toprow__close" @click="$router.push('/')">
                         <Icon name="Close" />
                     </button>
@@ -51,9 +51,23 @@ export default {
         justify-content: space-between;
         align-items: center;
 
+        &__logo svg{
+            max-width: 100%;
+        }
+
         &__close {
             background-color: transparent;
             border: none;
+        }
+    }
+
+    @media (max-width:900px) {
+        .toprow__logo {
+            width:100px;
+        }
+
+        .g-main {
+            padding-top:0;
         }
     }
 }
