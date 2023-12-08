@@ -1,16 +1,11 @@
 <template>
   <div class="stories-slider">
     <ul class="stories-slider__list" ref="slider">
-      <li class="stories-slider__item" ref="sliderItem" :class="{ 'active': slideActiveIdx === idx }" v-for="(item, idx) in trendings"
-        :key="item.id">
-        <SlideItem :isActive="slideActiveIdx === idx"
-        :data="getStoryData(item)"
-        :btnsShown="activeBtns"
-        :isLoading="slideActiveIdx === idx && loading"
-        @onNextSlide="handleSlideClick(slideActiveIdx + 1)"
-        @onPrevSlide="handleSlideClick(slideActiveIdx - 1)"
-        @onProgressFinish="handleSlideClick(slideActiveIdx + 1)"
-         />
+      <li class="stories-slider__item" ref="sliderItem" :class="{ 'active': slideActiveIdx === idx }"
+        v-for="(item, idx) in trendings" :key="item.id">
+        <SlideItem :isActive="slideActiveIdx === idx" :data="getStoryData(item)" :btnsShown="activeBtns"
+          :isLoading="slideActiveIdx === idx && loading" @onNextSlide="handleSlideClick(slideActiveIdx + 1)"
+          @onPrevSlide="handleSlideClick(slideActiveIdx - 1)" @onProgressFinish="handleSlideClick(slideActiveIdx + 1)" />
       </li>
     </ul>
   </div>
@@ -85,26 +80,34 @@ export default {
         await this.fetchActiveSlideReadme()
       } catch (e) {
         console.log(e)
-        throw e
+        // throw e
       } finally {
         this.loading = false
         this.btnsShown = true
       }
     },
+    handleInitialSlide () {
+      if (this.initialSlide) {
+        const ndx = this.trendings.findIndex((item) => item.id === this.initialSlide)
+
+        this.handleSlideClick(ndx)
+      }
+    },
     async handleSlideClick (slideIdx) {
-      if (slideIdx >= 0 && slideIdx <= this.$refs.sliderItem.length) {
+      if (slideIdx >= 0 && slideIdx < this.$refs.sliderItem.length) {
         this.moveSlider(slideIdx)
         await this.loadReadme()
       }
     }
   },
   async mounted () {
-    await this.fetchTrendings().then(() => {
-      if (this.initialSlide) {
-        const ndx = this.trendings.findIndex((item) => item.id === this.initialSlide)
-        this.handleSlideClick(ndx)
-      }
-    })
+    if (this.trendings.length) {
+      this.handleInitialSlide()
+    } else {
+      await this.fetchTrendings().then(() => {
+        this.handleInitialSlide()
+      })
+    }
     await this.loadReadme()
   }
 }
@@ -112,6 +115,7 @@ export default {
 
 <style lang="scss">
 .stories-slider {
+  --slideW:375px;
   overflow: hidden;
   position: relative;
   height: 667px;
@@ -123,14 +127,14 @@ export default {
     width: auto;
     position: absolute;
     left: 50%;
-    margin-left: -188px;
+    margin-left:calc(-1 * var(--slideW) / 2);
     transition: all 0.3s;
   }
 
   &__item {
     background: #ffffff;
     border-radius: 6px;
-    width: 375px;
+    width: var(--slideW);
     min-height: 667px;
     flex-shrink: 0;
     display: flex;
@@ -151,6 +155,31 @@ export default {
     &.active {
       transform: scale(1);
       z-index: 100;
+    }
+  }
+
+  @media (max-width:768px) {
+    &__list {
+      padding: 0 24px;
+    }
+
+    &__item {
+      width: calc(var(--slideW) - 24px*2);
+    }
+
+    @media (max-width:360px) {
+      --slideW:360px;
+      &__list {
+        padding: 0 16px;
+      }
+
+      &__item {
+        width: calc(var(--slideW) - 16px*2);
+      }
+    }
+
+    @media (max-width:320px) {
+      --slideW:320px;
     }
   }
 }
