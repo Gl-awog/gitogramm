@@ -1,7 +1,8 @@
 <template>
   <Header>
     <template #s-topline>
-      <Topline />
+      <Topline v-if="user" :avatar="user.avatar_url || undefined" />
+      <Topline v-else />
     </template>
     <template #s-bottomline>
       <div class="user__list">
@@ -43,10 +44,9 @@ import { Topline } from '@/components/topline'
 import { User } from '@/components/user'
 import { Feed } from '@/components/feed'
 import { Story } from '@/components/story'
-// import * as api from '../../api'
+import { Spinner } from '@/components/spinner'
 import { convertDateToReadable } from '@/helpers/helpers'
 import { mapActions, mapState } from 'vuex'
-import { Spinner } from '@/components/spinner'
 
 export default {
   name: 'FeedsPage',
@@ -59,34 +59,27 @@ export default {
     Spinner
   },
   data () {
-    return {
-      // repositories: []
-    }
+    return {}
   },
   methods: {
     convertDateToReadable,
     ...mapActions({
-      fetchTrendings: 'trendings/fetchTrendings'
+      fetchTrendings: 'trendings/fetchTrendings',
+      fetchUser: 'user/fetchUser'
     })
   },
   computed: {
     ...mapState({
       trendings: (state) => state.trendings.posts.data,
       trendingsIsLoading: (state) => state.trendings.posts.isLoading,
-      trendingsError: (state) => state.trendings.posts.error
+      trendingsError: (state) => state.trendings.posts.error,
+      user: (state) => state.user.user.data
     })
   },
-  mounted () {
+  async created () {
     this.fetchTrendings()
+    this.fetchUser()
   }
-  // async created () {
-  //   try {
-  //     const { data } = await api.trendings.getTrendings()
-  //     this.repositories = data.items
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
 }
 </script>
 

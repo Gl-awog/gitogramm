@@ -1,6 +1,7 @@
 import { FeedsPage } from '@/pages/feedsPage'
 import { Page404 } from '@/pages/page404'
 import { StoriesPage } from '@/pages/storiesPage'
+import { AuthPage } from '@/pages/authPage'
 
 export default [
   {
@@ -19,6 +20,11 @@ export default [
     name: 'storiesSlide',
     component: StoriesPage,
     props: true
+  },
+  {
+    path: '/auth',
+    name: 'auth',
+    component: AuthPage
   },
   {
     path: '/:pathMatch(.*)',

@@ -5,7 +5,7 @@
             <span class="icon topline__navbar-icon" href="">
                 <Icon name="Home" />
             </span>
-            <span class="topline__navbar-icon"><img src="../../assets/avatar/avatar1.png" /></span>
+            <span class="topline__navbar-icon"><img :src="avatar" /></span>
             <span class="icon topline__navbar-icon" href="">
                 <Icon name="Logout" />
             </span>
@@ -22,6 +22,13 @@ export default {
   components: {
     Logo,
     Icon
+  },
+  props: {
+    avatar: {
+      type: String,
+      default: '/avatar/avatar1.png',
+      required: false
+    }
   },
   data () {
     return {
