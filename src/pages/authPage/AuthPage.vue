@@ -5,7 +5,7 @@
                 <Logo />
                 <h2>More than just one repository.
                     This is our digital world.</h2>
-                <SlideButton :hoverText="`Authorize with github`" :isIcon="true" @click="getCode">Authorize with github
+                <SlideButton :hoverText="`Authorize with github`" :isIcon="true" @click="getAuthPersonalCode">Authorize with github
                     <template #btn-icon>
                         <Icon name="LogoGithub" />
                     </template>
@@ -22,7 +22,7 @@
 import { Logo } from '@/components/logo'
 import { SlideButton } from '@/components/slideButton'
 import { Icon } from '../../icons'
-import env from '../../../env'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AuthPage',
@@ -32,36 +32,18 @@ export default {
     Icon
   },
   methods: {
-    getCode () {
-      const githubAuthApi = 'https://github.com/login/oauth/authorize'
-      const params = new URLSearchParams()
-      params.append('client_id', env.clientId)
-      params.append('scope', 'repo:status read:user')
-
-      window.location.href = `${githubAuthApi}?${params}`
-    }
+    ...mapActions({
+      getAuthPersonalCode: 'user/getAuthPersonalCode',
+      authUserByCode: 'user/authUserByCode'
+    })
   },
   async created () {
     const code = new URLSearchParams(window.location.search).get('code')
 
     if (code) {
-      try {
-        const response = await fetch('https://webdev-api.loftschool.com/github', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            clientId: env.clientId, code, clientSecret: env.clientSecret
-          })
-        })
-
-        const { token } = await response.json()
-        localStorage.setItem('token', token)
-        this.$router.replace({ name: 'home' })
-      } catch (error) {
-        console.log(error)
-      }
+      const token = await this.authUserByCode(code)
+      localStorage.setItem('token', token)
+      this.$router.replace({ name: 'home' })
     }
   }
 }

@@ -4,8 +4,10 @@
       <li class="stories-slider__item" ref="sliderItem" :class="{ 'active': slideActiveIdx === idx }"
         v-for="(item, idx) in trendings" :key="item.id">
         <SlideItem :isActive="slideActiveIdx === idx" :data="getStoryData(item)" :btnsShown="activeBtns"
-          :isLoading="slideActiveIdx === idx && loading" @onNextSlide="handleSlideClick(slideActiveIdx + 1)"
-          @onPrevSlide="handleSlideClick(slideActiveIdx - 1)" @onProgressFinish="handleSlideClick(slideActiveIdx + 1)" />
+          :isLoading="slideActiveIdx === idx && loading"
+          @onNextSlide="handleSlideClick(slideActiveIdx + 1)"
+          @onPrevSlide="handleSlideClick(slideActiveIdx - 1)"
+          @onProgressFinish="handleSlideClick(slideActiveIdx + 1)" />
       </li>
     </ul>
   </div>

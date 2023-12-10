@@ -2,11 +2,11 @@
     <div class="topline">
         <Logo />
         <div class="topline__navbar">
-            <span class="icon topline__navbar-icon" href="">
+            <span class="icon topline__navbar-icon" @click="$router.push('/')">
                 <Icon name="Home" />
             </span>
             <span class="topline__navbar-icon"><img :src="avatar" /></span>
-            <span class="icon topline__navbar-icon" href="">
+            <span class="icon topline__navbar-icon" @click="$emit('onLogout')">
                 <Icon name="Logout" />
             </span>
         </div>
@@ -23,6 +23,7 @@ export default {
     Logo,
     Icon
   },
+  emits: ['onLogout'],
   props: {
     avatar: {
       type: String,
@@ -56,6 +57,10 @@ export default {
             img,
             svg {
                 max-width: 100%;
+            }
+
+            &.icon {
+              cursor: pointer;
             }
         }
     }

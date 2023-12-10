@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from './routes.js'
+import * as api from '@/api'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -7,12 +8,17 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  // try {
+  const authRoute = to.name === 'auth'
 
-  // } catch (error) {
-
-  // }
-  next()
+  try {
+    await api.user.getUser()
+    next(authRoute ? { name: 'home' } : null)
+  } catch (error) {
+    if (error.response.status === 401) {
+      next(authRoute ? null : { name: 'auth' })
+    }
+    console.log(error)
+  }
 })
 
 export default router

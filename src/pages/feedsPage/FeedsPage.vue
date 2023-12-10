@@ -1,8 +1,8 @@
 <template>
   <Header>
     <template #s-topline>
-      <Topline v-if="user" :avatar="user.avatar_url || undefined" />
-      <Topline v-else />
+      <Topline v-if="user" :avatar="user.avatar_url || undefined" @onLogout="logout"/>
+      <Topline v-else @onLogout="logout" />
     </template>
     <template #s-bottomline>
       <div class="user__list">
@@ -65,7 +65,8 @@ export default {
     convertDateToReadable,
     ...mapActions({
       fetchTrendings: 'trendings/fetchTrendings',
-      fetchUser: 'user/fetchUser'
+      fetchUser: 'user/fetchUser',
+      logout: 'user/logout'
     })
   },
   computed: {
