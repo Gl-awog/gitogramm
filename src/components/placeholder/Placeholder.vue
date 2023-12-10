@@ -1,6 +1,6 @@
 <template>
     <div class="placeholder">
-        <div class="placeholder__img"></div>
+        <div class="placeholder__img" v-if="isImg"></div>
         <div class="placeholder__txt" >
             <div class="placeholder__txt-block" v-for="item in paragraphs" :key="item"></div>
         </div>
@@ -14,6 +14,10 @@ export default {
     paragraphs: {
       type: Number,
       default: 1
+    },
+    isImg: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -31,7 +35,9 @@ export default {
     &__txt {
         &-block {
             height: 14px;
-            background: #DEDEDE;
+            background-image: linear-gradient(90deg, #EAEAEA 0px, #cccccc 50%, #EAEAEA 100%);
+            background-size: 600px;
+            animation: shine-lines 1.6s infinite linear;
             width:90%;
             border-radius: 4px;
             margin:0px 0 calc(30px * 2 + 18px);
@@ -46,6 +52,7 @@ export default {
                 border-radius: inherit;
                 top:calc(100% + 8px);
                 left:0;
+                animation:inherit;
             }
 
             &:after {
@@ -57,9 +64,17 @@ export default {
                 border-radius: inherit;
                 top:calc(100% + 30px);
                 left:0;
+                animation:inherit;
             }
         }
     }
 }
-
+@keyframes shine-lines {
+  0% {
+    background-position: -100px;
+  }
+  100% {
+    background-position: 600px;
+  }
+}
 </style>

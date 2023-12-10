@@ -35,12 +35,13 @@ export const user = {
     logout () {
       try {
         localStorage.removeItem('token')
-        // const params = new URLSearchParams(window.location.search)
-        // params.delete('code')
-        // window.history.replaceState()
-        // console.log(params)
-        // console.log(window.location.search)
-        // this.$router.replace({ name: 'auth' })
+        // window.history.replaceState(
+        //   {},
+        //   '',
+        //   `${window.location.pathname}?${window.location.hash}`
+        // )
+        // const loc = window.location
+        // window.location.href = `${loc.host}${loc.hash}/auth`
         window.location.reload()
       } catch (error) {
         console.log(error)

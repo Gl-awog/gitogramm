@@ -1,21 +1,30 @@
 <template>
-  <button class="btn" @mouseover="onMouseover" @mouseleave="onMouseleave">
-    <span class="btn__txt">
-      <slot v-if="!isHover"></slot>
-      <span v-if="isHover">{{ hoverText }}</span>
-    </span>
-    <span v-if="isIcon" class="btn__icon">
-      <slot name="btn-icon"></slot>
-    </span>
+  <button
+    class="btn"
+    :class="{ loading: isLoading, disable:isDisabled }"
+    @mouseover="onMouseover"
+    @mouseleave="onMouseleave"
+  >
+    <Spinner v-if="isLoading" />
+    <template v-else>
+      <span class="btn__txt">
+        <slot v-if="!isHover"></slot>
+        <span v-if="isHover">{{ hoverText }}</span>
+      </span>
+      <span v-if="isIcon" class="btn__icon">
+        <slot name="btn-icon"></slot>
+      </span>
+    </template>
   </button>
 </template>
 
 <script>
+import { Spinner } from '../spinner'
+
 export default {
   name: 'SlideButton',
-  emits: [
-    'onMouseover', 'onMouseleave'
-  ],
+  components: { Spinner },
+  emits: ['onMouseover', 'onMouseleave'],
   data () {
     return {
       isHover: false
@@ -27,6 +36,14 @@ export default {
       default: 'hoverText'
     },
     isIcon: {
+      type: Boolean,
+      default: false
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
+    },
+    isDisabled: {
       type: Boolean,
       default: false
     }
@@ -47,7 +64,7 @@ export default {
 <style lang="scss">
 .btn {
   height: 44px;
-  background: #31AE54;
+  background: #31ae54;
   border-radius: 6px;
   border: none;
   display: inline-flex;
@@ -60,16 +77,27 @@ export default {
   cursor: pointer;
 
   &:hover {
-    background: #9E9E9E;
+    background: #9e9e9e;
   }
 
   &__icon {
     margin-left: 10px;
   }
 
-  &:disabled,
+  &.disable,
   &[disabled] {
     opacity: 0.8;
+    pointer-events: none;
+  }
+
+  &.loading {
+    .spinner {
+      width: 18px;
+      height: 18px;
+    }
+    svg {
+      color: #ffffff;
+    }
   }
 }
 </style>

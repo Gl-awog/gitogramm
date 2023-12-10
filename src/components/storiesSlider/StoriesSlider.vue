@@ -1,13 +1,23 @@
 <template>
   <div class="stories-slider">
     <ul class="stories-slider__list" ref="slider">
-      <li class="stories-slider__item" ref="sliderItem" :class="{ 'active': slideActiveIdx === idx }"
-        v-for="(item, idx) in trendings" :key="item.id">
-        <SlideItem :isActive="slideActiveIdx === idx" :data="getStoryData(item)" :btnsShown="activeBtns"
+      <li
+        class="stories-slider__item"
+        ref="sliderItem"
+        :class="{ active: slideActiveIdx === idx }"
+        v-for="(item, idx) in trendings"
+        :key="item.id"
+      >
+        <SlideItem
+          :isActive="slideActiveIdx === idx"
+          :data="getStoryData(item)"
+          :btnsShown="activeBtns"
           :isLoading="slideActiveIdx === idx && loading"
           @onNextSlide="handleSlideClick(slideActiveIdx + 1)"
           @onPrevSlide="handleSlideClick(slideActiveIdx - 1)"
-          @onProgressFinish="handleSlideClick(slideActiveIdx + 1)" />
+          @onProgressFinish="handleSlideClick(slideActiveIdx + 1)"
+          @onFollow="starRepo"
+        />
       </li>
     </ul>
   </div>
@@ -52,14 +62,16 @@ export default {
   methods: {
     ...mapActions({
       fetchTrendings: 'trendings/fetchTrendings',
-      fetchReadme: 'trendings/fetchReadme'
+      fetchReadme: 'trendings/fetchReadme',
+      starRepo: 'trendings/starRepo'
     }),
     getStoryData (obj) {
       return {
         id: obj.id,
         avatar: obj.owner?.avatar_url,
         username: obj.owner?.login,
-        readme: obj.readme
+        readme: obj.readme,
+        following: obj.following
       }
     },
     async fetchActiveSlideReadme () {
@@ -69,7 +81,10 @@ export default {
     moveSlider (slideIdx) {
       const { slider, sliderItem } = this.$refs
       const slideWidth = parseInt(
-        getComputedStyle(sliderItem[this.slideActiveIdx]).getPropertyValue('width'), 10
+        getComputedStyle(sliderItem[this.slideActiveIdx]).getPropertyValue(
+          'width'
+        ),
+        10
       )
       this.slideActiveIdx = slideIdx
       this.sliderPosition = -(slideWidth * slideIdx)
@@ -90,7 +105,9 @@ export default {
     },
     handleInitialSlide () {
       if (this.initialSlide) {
-        const ndx = this.trendings.findIndex((item) => item.id === this.initialSlide)
+        const ndx = this.trendings.findIndex(
+          (item) => item.id === this.initialSlide
+        )
 
         this.handleSlideClick(ndx)
       }
@@ -117,7 +134,7 @@ export default {
 
 <style lang="scss">
 .stories-slider {
-  --slideW:375px;
+  --slideW: 375px;
   overflow: hidden;
   position: relative;
   height: 667px;
@@ -129,7 +146,7 @@ export default {
     width: auto;
     position: absolute;
     left: 50%;
-    margin-left:calc(-1 * var(--slideW) / 2);
+    margin-left: calc(-1 * var(--slideW) / 2);
     transition: all 0.3s;
   }
 
@@ -160,28 +177,28 @@ export default {
     }
   }
 
-  @media (max-width:768px) {
+  @media (max-width: 768px) {
     &__list {
       padding: 0 24px;
     }
 
     &__item {
-      width: calc(var(--slideW) - 24px*2);
+      width: calc(var(--slideW) - 24px * 2);
     }
 
-    @media (max-width:360px) {
-      --slideW:360px;
+    @media (max-width: 360px) {
+      --slideW: 360px;
       &__list {
         padding: 0 16px;
       }
 
       &__item {
-        width: calc(var(--slideW) - 16px*2);
+        width: calc(var(--slideW) - 16px * 2);
       }
     }
 
-    @media (max-width:320px) {
-      --slideW:320px;
+    @media (max-width: 320px) {
+      --slideW: 320px;
     }
   }
 }
