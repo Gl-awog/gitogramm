@@ -6,11 +6,12 @@
     <div class="feed__hero">
       <slot name="s-story"></slot>
     </div>
-    <div class="feed__comments" v-if="comments">
-      <Toggler @onToggle="toggle"></Toggler>
+    <div class="feed__comments">
+      <Toggler @onToggle="toggleIssues"></Toggler>
       <div v-if="shown">
-        <div v-for="comment in comments" :key="comment">
-          <Comment :username="comment.username" :text="comment.text" />
+        <Placeholder v-if="isIssuesLoading" :paragraphs="1"  />
+        <div else v-for="comment in comments" :key="comment">
+          <Comment :username="comment.user?.login" :text="comment.title" />
         </div>
       </div>
     </div>
@@ -22,14 +23,18 @@
 import { Toggler } from '../toggler'
 import { User } from '../user'
 import { Comment } from '../comment'
+import { Placeholder } from '../placeholder'
+import { mapState } from 'vuex'
 
 export default {
   name: 'feed',
   components: {
     Toggler,
     User,
-    Comment
+    Comment,
+    Placeholder
   },
+  emits: ['onToggleIssues'],
   props: {
     avatar: {
       type: String,
@@ -53,9 +58,15 @@ export default {
       shown: false
     }
   },
+  computed: {
+    ...mapState({
+      isIssuesLoading: state => state.starred.issues.isLoading
+    })
+  },
   methods: {
-    toggle (isOpened) {
+    toggleIssues (isOpened) {
       this.shown = isOpened
+      this.$emit('onToggleIssues', this.shown)
     }
   }
 }
@@ -91,16 +102,6 @@ export default {
     border: 1px solid #f1f1f1;
     padding: 24px 20px 24px 20px;
     margin-bottom: 18px;
-
-    // :deep(.story) p {
-    //   margin-bottom: 16px;
-    // }
-
-    // :deep(.story) h2 {
-    //   font-weight: 700;
-    //   font-size: 26px;
-    //   margin-bottom: 16px;
-    // }
   }
 
   &__date {
