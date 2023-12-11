@@ -24,11 +24,11 @@
     </div>
     <div class="slide-item__btn">
       <SlideButton
-        :hoverText="`Follow`"
+        :hoverText="data.following.status ? 'Unfollow':'Follow'"
         :isLoading="data.following.loading"
         :isDisabled="data.following.status"
-        @click="$emit('onFollow', data.id)"
-        >Follow
+        @click="$emit(data.following.status ? 'onUnFollow':'onFollow', data.id)"
+        >{{data.following.status ? 'Unfollow':'Follow'}}
       </SlideButton>
     </div>
     <nav class="slide-item__nav" v-if="isActive">

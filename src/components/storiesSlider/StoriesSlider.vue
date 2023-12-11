@@ -17,6 +17,7 @@
           @onPrevSlide="handleSlideClick(slideActiveIdx - 1)"
           @onProgressFinish="handleSlideClick(slideActiveIdx + 1)"
           @onFollow="starRepo"
+          @onUnFollow="unStarRepo"
         />
       </li>
     </ul>
@@ -63,7 +64,8 @@ export default {
     ...mapActions({
       fetchTrendings: 'trendings/fetchTrendings',
       fetchReadme: 'trendings/fetchReadme',
-      starRepo: 'trendings/starRepo'
+      starRepo: 'trendings/starRepo',
+      unStarRepo: 'trendings/unStarRepo'
     }),
     getStoryData (obj) {
       return {

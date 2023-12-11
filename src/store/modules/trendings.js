@@ -78,7 +78,10 @@ export const trendings = {
         commit('SET_README', { id, content: data })
       } catch (error) {
         console.log(error)
-        commit('SET_README', { id, content: 'No readme for this repository found' })
+        commit('SET_README', {
+          id,
+          content: 'No readme for this repository found'
+        })
       }
     },
 
@@ -93,7 +96,7 @@ export const trendings = {
         }
       })
       try {
-        console.log(owner.login)
+        // console.log(owner.login)
         await api.starred.starRepo({ owner: owner.login, repo })
         commit('SET_FOLLOWING', {
           id,
@@ -117,6 +120,38 @@ export const trendings = {
           }
         })
       }
+    }
+  },
+  async unStarRepo ({ commit, getters }, id) {
+    const { name: repo, owner } = getters.getRepoById(id)
+    commit('SET_FOLLOWING', {
+      id,
+      data: {
+        loading: true
+      }
+    })
+    try {
+      await api.starred.unStarRepo({ owner: owner.login, repo })
+      commit('SET_FOLLOWING', {
+        id,
+        data: {
+          status: false
+        }
+      })
+    } catch (error) {
+      commit('SET_FOLLOWING', {
+        id,
+        data: {
+          error: 'Error'
+        }
+      })
+    } finally {
+      commit('SET_FOLLOWING', {
+        id,
+        data: {
+          loading: false
+        }
+      })
     }
   }
 }
