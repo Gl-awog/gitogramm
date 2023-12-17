@@ -26,7 +26,7 @@
       <SlideButton
         :hoverText="data.following.status ? 'Unfollow':'Follow'"
         :isLoading="data.following.loading"
-        :isDisabled="data.following.status"
+        :isDisabled="data.following.loading"
         @click="$emit(data.following.status ? 'onUnFollow':'onFollow', data.id)"
         >{{data.following.status ? 'Unfollow':'Follow'}}
       </SlideButton>

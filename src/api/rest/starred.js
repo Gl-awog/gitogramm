@@ -27,5 +27,8 @@ export const unStarRepo = ({ repo, owner }) =>
     method: 'delete',
     headers: {
       Authorization: `token ${localStorage.getItem('token')}`
+    },
+    data: {
+      scope: 'repo:status public_repo read:user'
     }
   })
