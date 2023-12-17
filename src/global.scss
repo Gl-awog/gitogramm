@@ -33,7 +33,7 @@ body {
 }
 
 .g-main {
-    top: 1px solid #D3D3D3;
+    border-top: 1px solid #D3D3D3;
     padding-top: 32px;
 
     &__loader {
@@ -46,6 +46,11 @@ body {
 
 h1 {
     font-size: 72px;
+    font-weight: 700;
+}
+
+h2 {
+    font-size:26px;
     font-weight: 700;
 }
 

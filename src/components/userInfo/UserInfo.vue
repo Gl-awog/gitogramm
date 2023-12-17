@@ -1,0 +1,91 @@
+<template>
+  <div class="userinfo">
+    <User :username="username" :avatar="avatar" />
+    <ul class="userinfo__stats">
+      <li class="userinfo__stats-a"><em>{{ public_repos }}</em> repositories</li>
+      <li class="userinfo__stats-a"><em>{{ following }}</em> following</li>
+      <li class="userinfo__stats-fio">{{ fio }}</li>
+    </ul>
+  </div>
+</template>
+
+<script>
+import { User } from '../user'
+
+export default {
+  name: 'UserInfo',
+  components: {
+    User
+  },
+  props: {
+    avatar: {
+      type: String,
+      required: false
+    },
+    username: {
+      type: String,
+      required: true
+    },
+    fio: {
+      type: String
+    },
+    public_repos: {
+      type: Number
+    },
+    following: {
+      type: Number
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.userinfo {
+  display: flex;
+
+  &__stats {
+    margin-top: 34px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap:4px;
+    align-self:flex-start;
+
+    &-a {
+      flex-basis: calc(50% - 4px);
+      font-size:12px;
+      font-weight: 500;
+      margin-bottom: 6px;
+
+      em {
+        font-size: 14px;
+        font-weight: 700;
+      }
+    }
+
+    &-fio {
+      flex-basis: 100%;
+      color:#9E9E9E;
+      font-size: 14px;
+    }
+  }
+
+  ::v-deep .user {
+    position: relative;
+    margin:0 20px 16px 0;
+
+    &__avatar {
+      width: 90px;
+      height: 90px;
+    }
+
+    &__name {
+      position: absolute;
+      left: 110px;
+      top: 0;
+      white-space: nowrap;
+      font-size: 24px;
+      font-weight: 700;
+    }
+  }
+}
+</style>

@@ -5,7 +5,7 @@
             <span class="icon topline__navbar-icon" @click="$router.push('/')">
                 <Icon name="Home" />
             </span>
-            <span class="topline__navbar-icon"><img :src="avatar" /></span>
+            <span class="topline__navbar-icon"  @click="$router.push({ name: 'user' })"><img :src="avatar" /></span>
             <span class="icon topline__navbar-icon" @click="$emit('onLogout')">
                 <Icon name="Logout" />
             </span>

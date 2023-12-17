@@ -28,3 +28,19 @@ export const getUser = () => {
     }
   })
 }
+
+export const getUserRepos = ({ owner }) => {
+  return makeRequest({
+    url: `/users/${owner}/repos`,
+    // url: '/user/repos',
+    headers: {
+      Authorization: `token ${localStorage.getItem('token')}`
+    }
+  })
+}
+
+// export const getUserFollowing = () => {
+//   return makeRequest({
+//     url: "/user/following",
+//   })
+// }

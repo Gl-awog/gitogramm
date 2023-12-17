@@ -5,11 +5,17 @@ export const user = {
   state: {
     user: {
       data: null
+    },
+    userrepo: {
+      data: null
     }
   },
   mutations: {
     SET_USER (state, payload) {
       state.user.data = payload
+    },
+    SET_USER_REPOS: (state, payload) => {
+      state.userrepo.data = payload
     }
   },
   getters: {},
@@ -35,16 +41,19 @@ export const user = {
     logout () {
       try {
         localStorage.removeItem('token')
-        // window.history.replaceState(
-        //   {},
-        //   '',
-        //   `${window.location.pathname}?${window.location.hash}`
-        // )
-        // const loc = window.location
-        // window.location.href = `${loc.host}${loc.hash}/auth`
         window.location.reload()
       } catch (error) {
         console.log(error)
+      }
+    },
+
+    async fetchUserRepos ({ commit }, { owner }) {
+      try {
+        const { data } = await api.user.getUserRepos({ owner })
+        commit('SET_USER_REPOS', data)
+      } catch (error) {
+        console.log(error)
+        commit('SET_USER_REPOS', [])
       }
     }
   }
