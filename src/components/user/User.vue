@@ -33,6 +33,8 @@ export default {
 .user {
   &__avatar {
     border-radius: 50%;
+    width:100px;
+
     img {
       max-width: 100%;
       margin: 0 auto;

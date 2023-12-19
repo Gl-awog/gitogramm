@@ -26,20 +26,41 @@
         <div class="userpage__content">
           <h2>Repositories</h2>
           <div class="repo-container">
-          <div class="repo-count" v-if="user_repos">
-            {{ user_repos.length }}
+            <div class="repo-count" v-if="user_repos">
+              {{ user_repos.length }}
+            </div>
+            <ul class="repo-list">
+              <li class="repo-item" v-for="item in user_repos" :key="item.id">
+                <Story
+                  :title="item.name"
+                  :text="item.description"
+                  :like="item.stargazers_count"
+                  :fork="item.forks"
+                />
+              </li>
+            </ul>
           </div>
-          <ul class="repo-list">
-            <li class="repo-item" v-for="item in user_repos" :key="item.id">
-              <Story
-                :title="item.name"
-                :text="item.description"
-                :like="item.stargazers_count"
-                :fork="item.forks"
-              />
-            </li>
-          </ul></div>
-          <!-- <pre>{{ user }}</pre> -->
+          <h2>Following</h2>
+          <div class="following-container">
+            <div class="following-count" v-if="user_following">
+              {{ user_following.length }}
+            </div>
+            <ul class="following-list">
+              <li
+                class="following-item"
+                v-for="item in user_following"
+                :key="item.id"
+              >
+                <div class="following-item__left">
+                  <User :username="item.login" :avatar="item.avatar_url" />
+                  <p class="following-item__type">{{ item.type }}</p>
+                </div>
+                <SlideButton :hoverText="Following" @click="$emit('onFollow')"
+                  >{{ "Following" }}
+                </SlideButton>
+              </li>
+            </ul>
+          </div>
         </div>
       </section>
     </div>
@@ -49,8 +70,10 @@
 <script>
 import { Header } from '@/components/header'
 import { Topline } from '@/components/topline'
+import { User } from '@/components/user'
 import { UserInfo } from '@/components/userInfo'
 import { Story } from '@/components/story'
+import { SlideButton } from '@/components/slideButton'
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -59,18 +82,23 @@ export default {
     Header,
     Topline,
     UserInfo,
-    Story
+    Story,
+    User,
+    SlideButton
   },
+  emits: ['onFollow'],
   computed: {
     ...mapState({
       user: (state) => state.user.user.data,
-      user_repos: (state) => state.user.userrepo.data
+      user_repos: (state) => state.user.userrepo.data,
+      user_following: (state) => state.user.userfollowing.data
     })
   },
   methods: {
     ...mapActions({
       fetchUser: 'user/fetchUser',
       fetchUserRepos: 'user/fetchUserRepos',
+      fetchUserFollowing: 'user/fetchUserFollowing',
       logout: 'user/logout'
     }),
 
@@ -81,12 +109,20 @@ export default {
       } catch (e) {
         console.log(e)
       }
+    },
+    async loadUserFollowing () {
+      try {
+        const { login } = this.user
+        await this.fetchUserFollowing({ owner: login })
+      } catch (e) {
+        console.log(e)
+      }
     }
   },
-
   async mounted () {
     await this.fetchUser().then(() => {
       this.loadUserRepos()
+      this.loadUserFollowing()
     })
   }
 }
@@ -140,11 +176,62 @@ export default {
 
     &-count {
       position: absolute;
-      top:-58px;
-      right:0;
-      font-size:18px;
+      top: -58px;
+      right: 0;
+      font-size: 18px;
       font-weight: 700;
-      color: #9E9E9E;
+      color: #9e9e9e;
+    }
+  }
+
+  .following {
+    &-container {
+      position: relative;
+    }
+
+    &-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      align-items: center;
+
+      :deep(.user) {
+        position: relative;
+        margin: 0 20px 16px 0;
+      }
+
+      :deep(.user__avatar) {
+        width: 72px;
+        height: 72px;
+      }
+
+      :deep(.user__name) {
+        position: absolute;
+        left: 90px;
+        top: 14px;
+        white-space: nowrap;
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      &__type {
+        font-size: 12px;
+        color: #9E9E9E;
+        margin-top:42px;
+      }
+
+      &__left {
+        display: flex;
+      }
+    }
+
+    &-count {
+      position: absolute;
+      top: -58px;
+      right: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #9e9e9e;
     }
   }
 }

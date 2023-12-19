@@ -8,6 +8,9 @@ export const user = {
     },
     userrepo: {
       data: null
+    },
+    userfollowing: {
+      data: null
     }
   },
   mutations: {
@@ -16,6 +19,9 @@ export const user = {
     },
     SET_USER_REPOS: (state, payload) => {
       state.userrepo.data = payload
+    },
+    SET_USER_FOLLOWERS: (state, payload) => {
+      state.userfollowing.data = payload
     }
   },
   getters: {},
@@ -54,6 +60,18 @@ export const user = {
       } catch (error) {
         console.log(error)
         commit('SET_USER_REPOS', [])
+      }
+    },
+    async fetchUserFollowing ({ commit }, { owner }) {
+      // commit('SET_USER_FOLLOWERS_LOADING', true)
+      try {
+        const { data } = await api.user.getUserFollowing({ owner })
+        commit('SET_USER_FOLLOWERS', data)
+      } catch (error) {
+        console.log(error)
+        commit('SET_USER_FOLLOWERS', [])
+      } finally {
+        // commit('SET_FOLLOWERS_LOADING', false)
       }
     }
   }
