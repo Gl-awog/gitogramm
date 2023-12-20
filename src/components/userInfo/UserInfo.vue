@@ -1,7 +1,8 @@
 <template>
   <div class="userinfo">
     <User :username="username" :avatar="avatar" />
-    <ul class="userinfo__stats">
+    <Placeholder v-if="isLoading" :isSimple="true" :paragraphs="1"  />
+    <ul v-else class="userinfo__stats">
       <li class="userinfo__stats-a">
         <em>{{ public_repos }}</em> repositories
       </li>
@@ -15,11 +16,13 @@
 
 <script>
 import { User } from '../user'
+import { Placeholder } from '../placeholder'
 
 export default {
   name: 'UserInfo',
   components: {
-    User
+    User,
+    Placeholder
   },
   props: {
     avatar: {
@@ -38,6 +41,9 @@ export default {
     },
     following: {
       type: Number
+    },
+    isLoading: {
+      type: Boolean
     }
   }
 }
