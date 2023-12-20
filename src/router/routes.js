@@ -27,7 +27,7 @@ export default [
   {
     path: '/user',
     name: 'user',
-    // redirect: '/user/repositories',
+    redirect: '/user/repositories',
     component: UserPage,
     children: [
       {

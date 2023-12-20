@@ -30,6 +30,7 @@
 <script>
 import { Spinner } from '@/components/spinner'
 import { SlideButton } from '@/components/slideButton'
+import { User } from '@/components/user'
 import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 
@@ -37,7 +38,8 @@ export default {
   name: 'UserFollowingSubPage',
   components: {
     Spinner,
-    SlideButton
+    SlideButton,
+    User
   },
   setup () {
     const unFollow = async (owner) => {

@@ -27,7 +27,7 @@
         <div class="userpage__content">
           <router-view />
 
-          <h2>Repositories</h2>
+          <!-- <h2>Repositories</h2>
           <div class="userpage__loader" v-if="userRepos.isLoading">
             <Spinner />
           </div>
@@ -81,7 +81,7 @@
                 >
               </li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </section>
     </div>
@@ -91,11 +91,11 @@
 <script>
 import { Header } from '@/components/header'
 import { Topline } from '@/components/topline'
-import { User } from '@/components/user'
+// import { User } from '@/components/user'
 import { UserInfo } from '@/components/userInfo'
-import { Story } from '@/components/story'
-import { SlideButton } from '@/components/slideButton'
-import { Spinner } from '@/components/spinner'
+// import { Story } from '@/components/story'
+// import { SlideButton } from '@/components/slideButton'
+// import { Spinner } from '@/components/spinner'
 import { useStore } from 'vuex'
 import { computed, onMounted } from 'vue'
 
@@ -104,57 +104,58 @@ export default {
   components: {
     Header,
     Topline,
-    UserInfo,
-    Story,
-    User,
-    SlideButton,
-    Spinner
+    UserInfo
+    // Story,
+    // User,
+    // SlideButton,
+    // Spinner
   },
   setup () {
     const { state, dispatch } = useStore()
 
-    const loadUserRepos = async () => {
-      try {
-        const { login } = user.value.data
-        await dispatch('user/fetchUserRepos', { owner: login })
-      } catch (e) {
-        console.log(e)
-      }
-    }
+    // const loadUserRepos = async () => {
+    //   try {
+    //     const { login } = user.value.data
+    //     await dispatch('user/fetchUserRepos', { owner: login })
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    // }
 
-    const loadUserFollowing = async () => {
-      try {
-        const { login } = user.value.data
-        await dispatch('user/fetchUserFollowing', { owner: login })
-      } catch (e) {
-        console.log(e)
-      }
-    }
+    // const loadUserFollowing = async () => {
+    //   try {
+    //     const { login } = user.value.data
+    //     await dispatch('user/fetchUserFollowing', { owner: login })
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    // }
 
-    const unFollow = async (owner) => {
-      try {
-        await dispatch('user/unsetFollowing', { owner })
-      } catch (e) {
-        console.log(e)
-      }
-    }
+    // const unFollow = async (owner) => {
+    //   try {
+    //     await dispatch('user/unsetFollowing', { owner })
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    // }
 
     onMounted(async () => {
-      await dispatch('user/fetchUser').then(() => {
-        loadUserRepos()
-        loadUserFollowing()
-      })
+      await dispatch('user/fetchUser')
+      // await dispatch('user/fetchUser').then(() => {
+      //   loadUserRepos()
+      //   loadUserFollowing()
+      // })
     })
 
     const user = computed(() => state.user.user)
-    const userRepos = computed(() => state.user.userrepo)
-    const userFollowing = computed(() => state.user.userfollowing)
+    // const userRepos = computed(() => state.user.userrepo)
+    // const userFollowing = computed(() => state.user.userfollowing)
 
     return {
-      user,
-      userRepos,
-      userFollowing,
-      unFollow
+      user
+      // userRepos,
+      // userFollowing,
+      // unFollow
     }
   }
   // computed: {
