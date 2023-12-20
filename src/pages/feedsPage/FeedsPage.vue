@@ -50,7 +50,7 @@
             :storyIndex="0"
             :comments="item.issues"
             @onToggleIssues="
-              fetchIssuesForRepo({
+              !item.issues && fetchIssuesForRepo({
                 id: item.id,
                 owner: item.owner.login,
                 repo: item.name,

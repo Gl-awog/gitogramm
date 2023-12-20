@@ -1,8 +1,12 @@
 <template>
   <Header>
     <template #s-topline>
-      <Topline v-if="user.data" :avatar="user.data.avatar_url || undefined" @onLogout="logout" />
-      <Topline v-else @onLogout="() => { }" />
+      <Topline
+        v-if="user.data"
+        :avatar="user.data.avatar_url || undefined"
+        @onLogout="logout"
+      />
+      <Topline v-else @onLogout="() => {}" />
     </template>
   </Header>
   <main class="g-main">
@@ -10,46 +14,71 @@
       <section class="userpage">
         <aside class="userpage__aside">
           <h2>My profile</h2>
-          <UserInfo v-if="user.data" :avatar="user.data.avatar_url || undefined" :username="user.data.login"
-            :fio="user.data.name" :public_repos="user.data.public_repos" :following="user.data.following"
-            :isLoading="user.data.isLoading" />
+          <UserInfo
+            v-if="user.data"
+            :avatar="user.data.avatar_url"
+            :username="user.data.login"
+            :fio="user.data.name"
+            :public_repos="user.data.public_repos"
+            :following="user.data.following"
+            :isLoading="user.data.isLoading"
+          />
         </aside>
         <div class="userpage__content">
+          <router-view />
+
           <h2>Repositories</h2>
-          <div class="userpage__loader" v-if="user_repos.isLoading">
+          <div class="userpage__loader" v-if="userRepos.isLoading">
             <Spinner />
           </div>
-          <div class="userpage__error" v-else-if="user_repos.error">
-            {{ user_repos.error }}
+          <div class="userpage__error" v-else-if="userRepos.error">
+            {{ userRepos.error }}
           </div>
           <div class="repo-container" v-else>
-            <div class="repo-count" v-if="user_repos.data">
-              {{ user_repos.data.length }}
+            <div class="repo-count" v-if="userRepos.data">
+              {{ userRepos.data.length }}
             </div>
             <ul class="repo-list">
-              <li class="repo-item" v-for="item in user_repos.data" :key="item.id">
-                <Story :title="item.name" :text="item.description" :like="item.stargazers_count" :fork="item.forks" />
+              <li
+                class="repo-item"
+                v-for="item in userRepos.data"
+                :key="item.id"
+              >
+                <Story
+                  :title="item.name"
+                  :text="item.description"
+                  :like="item.stargazers_count"
+                  :fork="item.forks"
+                />
               </li>
             </ul>
           </div>
           <h2>Following</h2>
-          <div class="userpage__loader" v-if="user_following.isLoading">
+          <div class="userpage__loader" v-if="userFollowing.isLoading">
             <Spinner />
           </div>
-          <div class="userpage__error" v-else-if="user_following.error">
-            {{ user_following.error }}
+          <div class="userpage__error" v-else-if="userFollowing.error">
+            {{ userFollowing.error }}
           </div>
           <div class="following-container" v-else>
-            <div class="following-count" v-if="user_following.data">
-              {{ user_following.data.length }}
+            <div class="following-count" v-if="userFollowing.data">
+              {{ userFollowing.data.length }}
             </div>
             <ul class="following-list">
-              <li class="following-item" v-for="item in user_following.data" :key="item.id">
+              <li
+                class="following-item"
+                v-for="item in userFollowing.data"
+                :key="item.id"
+              >
                 <div class="following-item__left">
                   <User :username="item.login" :avatar="item.avatar_url" />
                   <p class="following-item__type">{{ item.type }}</p>
                 </div>
-                <SlideButton :hoverText="Following" @click="unFollow(item.login)">{{ "Following" }}</SlideButton>
+                <SlideButton
+                  :hoverText="Following"
+                  @click="unFollow(item.login)"
+                  >{{ "Following" }}</SlideButton
+                >
               </li>
             </ul>
           </div>
@@ -67,7 +96,8 @@ import { UserInfo } from '@/components/userInfo'
 import { Story } from '@/components/story'
 import { SlideButton } from '@/components/slideButton'
 import { Spinner } from '@/components/spinner'
-import { mapActions, mapState } from 'vuex'
+import { useStore } from 'vuex'
+import { computed, onMounted } from 'vue'
 
 export default {
   name: 'UserPage',
@@ -80,55 +110,100 @@ export default {
     SlideButton,
     Spinner
   },
-  emits: ['onFollow'],
-  computed: {
-    ...mapState({
-      user: (state) => state.user.user,
-      user_repos: (state) => state.user.userrepo,
-      user_following: (state) => state.user.userfollowing
-    })
-  },
-  methods: {
-    ...mapActions({
-      fetchUser: 'user/fetchUser',
-      fetchUserRepos: 'user/fetchUserRepos',
-      fetchUserFollowing: 'user/fetchUserFollowing',
-      logout: 'user/logout',
-      // setFollowing: 'user/setFollowing',
-      unsetFollowing: 'user/unsetFollowing'
-    }),
+  setup () {
+    const { state, dispatch } = useStore()
 
-    async unFollow (owner) {
+    const loadUserRepos = async () => {
       try {
-        await this.unsetFollowing(owner)
-      } catch (error) {
-        console.log(error)
-      }
-    },
-
-    async loadUserRepos () {
-      try {
-        const { login } = this.user.data
-        await this.fetchUserRepos({ owner: login })
-      } catch (e) {
-        console.log(e)
-      }
-    },
-    async loadUserFollowing () {
-      try {
-        const { login } = this.user.data
-        await this.fetchUserFollowing({ owner: login })
+        const { login } = user.value.data
+        await dispatch('user/fetchUserRepos', { owner: login })
       } catch (e) {
         console.log(e)
       }
     }
-  },
-  async mounted () {
-    await this.fetchUser().then(() => {
-      this.loadUserRepos()
-      this.loadUserFollowing()
+
+    const loadUserFollowing = async () => {
+      try {
+        const { login } = user.value.data
+        await dispatch('user/fetchUserFollowing', { owner: login })
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    const unFollow = async (owner) => {
+      try {
+        await dispatch('user/unsetFollowing', { owner })
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
+    onMounted(async () => {
+      await dispatch('user/fetchUser').then(() => {
+        loadUserRepos()
+        loadUserFollowing()
+      })
     })
+
+    const user = computed(() => state.user.user)
+    const userRepos = computed(() => state.user.userrepo)
+    const userFollowing = computed(() => state.user.userfollowing)
+
+    return {
+      user,
+      userRepos,
+      userFollowing,
+      unFollow
+    }
   }
+  // computed: {
+  //   ...mapState({
+  //     user: (state) => state.user.user,
+  //     userRepos: (state) => state.user.userrepo,
+  //     userFollowing: (state) => state.user.userfollowing,
+  //   }),
+  // },
+  // methods: {
+  //   ...mapActions({
+  //     fetchUser: "user/fetchUser",
+  //     fetchUserRepos: "user/fetchUserRepos",
+  //     fetchUserFollowing: "user/fetchUserFollowing",
+  //     logout: "user/logout",
+  //     unsetFollowing: "user/unsetFollowing",
+  //   }),
+
+  //   async unFollow(owner) {
+  //     try {
+  //       await this.unsetFollowing(owner);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   },
+
+  //   async loadUserRepos() {
+  //     try {
+  //       const { login } = this.user.data;
+  //       await this.fetchUserRepos({ owner: login });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   },
+  //   async loadUserFollowing() {
+  //     try {
+  //       const { login } = this.user.data;
+  //       await this.fetchUserFollowing({ owner: login });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   },
+  // },
+  // async mounted() {
+  //   await this.fetchUser().then(() => {
+  //     this.loadUserRepos();
+  //     this.loadUserFollowing();
+  //   });
+  // },
 }
 </script>
 
@@ -267,7 +342,6 @@ export default {
         width: 90px;
         height: 90px;
       }
-
     }
 
     &__content {
@@ -306,7 +380,7 @@ export default {
     &-item {
       :deep(.user) {
         .user__avatar {
-          width:66px;
+          width: 66px;
           height: 66px;
         }
       }
@@ -320,6 +394,10 @@ export default {
 
 .g-main {
   border-top: none;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) calc(100%  - 30px), rgba(0, 0, 0, 0.17) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) calc(100% - 30px),
+    rgba(0, 0, 0, 0.17) 100%
+  );
 }
 </style>
