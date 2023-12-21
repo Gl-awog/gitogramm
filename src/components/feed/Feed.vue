@@ -7,7 +7,8 @@
       <slot name="s-story"></slot>
     </div>
     <div class="feed__comments">
-      <Toggler @onToggle="toggleIssues"></Toggler>
+      <!-- <Issues :comments="comments" @onToggleIssues="onToggleIssues" /> -->
+      <Toggler @onToggle="toggleIssues" ></Toggler>
       <div v-if="shown">
         <Placeholder v-if="isIssuesLoading" :paragraphs="1"  />
         <div else v-for="comment in comments" :key="comment">
@@ -21,6 +22,7 @@
 
 <script>
 import { Toggler } from '../toggler'
+// import { Issues } from '../issues'
 import { User } from '../user'
 import { Comment } from '../comment'
 import { Placeholder } from '../placeholder'
@@ -33,6 +35,7 @@ export default {
     User,
     Comment,
     Placeholder
+    // Issues
   },
   emits: ['onToggleIssues'],
   props: {
