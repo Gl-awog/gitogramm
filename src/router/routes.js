@@ -2,6 +2,9 @@ import { FeedsPage } from '@/pages/feedsPage'
 import { Page404 } from '@/pages/page404'
 import { StoriesPage } from '@/pages/storiesPage'
 import { AuthPage } from '@/pages/authPage'
+import { UserPage } from '@/pages/userPage'
+import { UserReposSubPage } from '@/pages/userReposSubPage'
+import { UserFollowingSubPage } from '@/pages/userFollowingSubPage'
 
 export default [
   {
@@ -20,6 +23,24 @@ export default [
     name: 'storiesSlide',
     component: StoriesPage,
     props: true
+  },
+  {
+    path: '/user',
+    name: 'user',
+    redirect: '/user/repositories',
+    component: UserPage,
+    children: [
+      {
+        path: 'repositories',
+        name: 'repositories',
+        component: UserReposSubPage
+      },
+      {
+        path: 'following',
+        name: 'following',
+        component: UserFollowingSubPage
+      }
+    ]
   },
   {
     path: '/auth',

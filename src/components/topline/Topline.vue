@@ -5,7 +5,7 @@
             <span class="icon topline__navbar-icon" @click="$router.push('/')">
                 <Icon name="Home" />
             </span>
-            <span class="topline__navbar-icon"><img :src="avatar" /></span>
+            <span class="topline__navbar-icon topline__navbar-avatar"  @click="$router.push({ name: 'user' })"><img :src="avatar" /></span>
             <span class="icon topline__navbar-icon" @click="$emit('onLogout')">
                 <Icon name="Logout" />
             </span>
@@ -53,6 +53,7 @@ export default {
 
         &-icon {
             width: 32px;
+            cursor: pointer;
 
             img,
             svg {
@@ -62,6 +63,12 @@ export default {
             &.icon {
               cursor: pointer;
             }
+        }
+        &-avatar {
+          border-radius: 50%;
+          overflow:hidden;
+          height: 32px;
+          width:32px;
         }
     }
 

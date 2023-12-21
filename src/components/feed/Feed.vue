@@ -7,34 +7,24 @@
       <slot name="s-story"></slot>
     </div>
     <div class="feed__comments">
-      <Toggler @onToggle="toggleIssues"></Toggler>
-      <div v-if="shown">
-        <Placeholder v-if="isIssuesLoading" :paragraphs="1"  />
-        <div else v-for="comment in comments" :key="comment">
-          <Comment :username="comment.user?.login" :text="comment.title" />
-        </div>
-      </div>
+      <Issues :comments="comments" :isLoading="isIssuesLoading" @onToggleIssues="this.$emit('loadIssues')" />
     </div>
     <time class="feed__date">{{ date }} </time>
   </article>
 </template>
 
 <script>
-import { Toggler } from '../toggler'
+import { Issues } from '../issues'
 import { User } from '../user'
-import { Comment } from '../comment'
-import { Placeholder } from '../placeholder'
 import { mapState } from 'vuex'
 
 export default {
   name: 'feed',
   components: {
-    Toggler,
     User,
-    Comment,
-    Placeholder
+    Issues
   },
-  emits: ['onToggleIssues'],
+  emits: ['loadIssues'],
   props: {
     avatar: {
       type: String,
@@ -53,21 +43,10 @@ export default {
       required: false
     }
   },
-  data () {
-    return {
-      shown: false
-    }
-  },
   computed: {
     ...mapState({
-      isIssuesLoading: state => state.starred.issues.isLoading
+      isIssuesLoading: (state) => state.starred.issues.isLoading
     })
-  },
-  methods: {
-    toggleIssues (isOpened) {
-      this.shown = isOpened
-      this.$emit('onToggleIssues', this.shown)
-    }
   }
 }
 </script>

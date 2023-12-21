@@ -10,21 +10,43 @@ export const sendUserToAuthPage = () => {
   window.location.href = `${githubAuthApi}?${params}`
 }
 
-export const getAccessTokenByPersonalCode = (code) => makeRequest({
-  url: 'https://webdev-api.loftschool.com/github',
-  method: 'post',
-  data: {
-    code,
-    clientId: env.clientId,
-    clientSecret: env.clientSecret
-  }
-})
+export const getAccessTokenByPersonalCode = (code) =>
+  makeRequest({
+    url: 'https://webdev-api.loftschool.com/github',
+    method: 'post',
+    data: {
+      code,
+      clientId: env.clientId,
+      clientSecret: env.clientSecret
+    }
+  })
 
 export const getUser = () => {
   return makeRequest({
-    url: '/user',
-    headers: {
-      Authorization: `token ${localStorage.getItem('token')}`
-    }
+    url: '/user'
   })
 }
+
+export const getUserRepos = ({ owner }) => {
+  return makeRequest({
+    url: `/users/${owner}/repos`
+  })
+}
+
+export const getUserFollowing = ({ owner }) => {
+  return makeRequest({
+    url: `/users/${owner}/following`
+  })
+}
+
+export const setFollowing = ({ owner }) =>
+  makeRequest({
+    url: `/user/following/${owner}`,
+    method: 'put'
+  })
+
+export const unsetFollowing = ({ owner }) =>
+  makeRequest({
+    url: `/user/following/${owner}`,
+    method: 'delete'
+  })
