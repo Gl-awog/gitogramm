@@ -91,8 +91,8 @@
 <script>
 import { Header } from '@/components/header'
 import { Topline } from '@/components/topline'
-// import { User } from '@/components/user'
 import { UserInfo } from '@/components/userInfo'
+// import { User } from '@/components/user'
 // import { Story } from '@/components/story'
 // import { SlideButton } from '@/components/slideButton'
 // import { Spinner } from '@/components/spinner'
@@ -208,7 +208,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .userpage {
   padding-bottom: 10px;
   & {
@@ -392,13 +392,16 @@ export default {
     }
   }
 }
-
-.g-main {
-  border-top: none;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) calc(100% - 30px),
-    rgba(0, 0, 0, 0.17) 100%
-  );
+</style>
+<style lang="scss" scoped>
+@media (max-width: 900px) {
+  .g-main {
+    border-top: none;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) calc(100% - 30px),
+      rgba(0, 0, 0, 0.17) 100%
+    );
+  }
 }
 </style>

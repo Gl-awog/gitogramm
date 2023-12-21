@@ -4,10 +4,10 @@
     <Placeholder v-if="isLoading" :isSimple="true" :paragraphs="1"  />
     <ul v-else class="userinfo__stats">
       <li class="userinfo__stats-a">
-        <em>{{ public_repos }}</em> repositories
+        <em>{{ public_repos }}</em> <router-link to="/user/repositories">repositories</router-link>
       </li>
-      <li class="userinfo__stats-a">
-        <em>{{ following }}</em> following
+      <li class="userinfo__stats-a" >
+        <em>{{ following }}</em> <router-link to="/user/following"> following</router-link>
       </li>
       <li class="userinfo__stats-fio">{{ fio }}</li>
     </ul>

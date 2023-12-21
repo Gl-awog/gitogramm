@@ -42,6 +42,10 @@ export default {
     User
   },
   setup () {
+    const { state, dispatch } = useStore()
+    const user = computed(() => state.user.user)
+    const userFollowing = computed(() => state.user.userfollowing)
+
     const unFollow = async (owner) => {
       try {
         await dispatch('user/unsetFollowing', { owner })
@@ -49,8 +53,6 @@ export default {
         console.log(e)
       }
     }
-
-    const { state, dispatch } = useStore()
 
     const loadUserFollowing = async () => {
       try {
@@ -62,13 +64,14 @@ export default {
     }
 
     onMounted(async () => {
+      // if (!user.value.data) {
       await dispatch('user/fetchUser').then(() => {
         loadUserFollowing()
       })
+      // } else {
+      //   loadUserFollowing()
+      // }
     })
-
-    const user = computed(() => state.user.user)
-    const userFollowing = computed(() => state.user.userfollowing)
 
     return {
       user,
@@ -78,3 +81,28 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.following {
+  &-item {
+    :deep(.user) {
+      position: relative;
+      margin: 0 20px 16px 0;
+    }
+
+    :deep(.user__avatar) {
+      width: 72px;
+      height: 72px;
+    }
+
+    :deep(.user__name) {
+      position: absolute;
+      left: 90px;
+      top: 14px;
+      white-space: nowrap;
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+}
+</style>

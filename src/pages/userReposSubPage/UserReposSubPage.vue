@@ -37,6 +37,9 @@ export default {
   setup () {
     const { state, dispatch } = useStore()
 
+    const user = computed(() => state.user.user)
+    const userRepos = computed(() => state.user.userrepo)
+
     const loadUserRepos = async () => {
       try {
         const { login } = user.value.data
@@ -47,13 +50,14 @@ export default {
     }
 
     onMounted(async () => {
+      // if (!user.value.data) {
       await dispatch('user/fetchUser').then(() => {
         loadUserRepos()
       })
+      // } else {
+      //   loadUserRepos()
+      // }
     })
-
-    const user = computed(() => state.user.user)
-    const userRepos = computed(() => state.user.userrepo)
 
     return {
       user,

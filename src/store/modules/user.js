@@ -120,7 +120,7 @@ export const user = {
     },
 
     async setFollowing ({ commit }, owner) {
-      // commit('SET_FOLLOWERS_LOADING', true)
+      commit('SET_FOLLOWING_LOADING', true)
 
       try {
         const response = await api.user.setFollowing(owner)
@@ -129,9 +129,9 @@ export const user = {
         }
       } catch (e) {
         console.log(e)
-        // commit('SET_FOLLOWERS_ERROR', 'не удалось обновить данные')
+        commit('SET_FOLLOWING_ERROR', e)
       } finally {
-        // commit('SET_FOLLOWERS_LOADING', false)
+        commit('SET_FOLLOWING_LOADING', false)
       }
     },
 

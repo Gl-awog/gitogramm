@@ -67,9 +67,8 @@ export default {
         &-avatar {
           border-radius: 50%;
           overflow:hidden;
-          img {
-            object-fit: cover;
-          }
+          height: 32px;
+          width:32px;
         }
     }
 
