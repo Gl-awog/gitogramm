@@ -1,7 +1,7 @@
-<template>
+<template>  
   <Toggler @onToggle="toggleIssues"></Toggler>
-  <div v-if="isShown">
-    <Placeholder v-if="isIssuesLoading" :paragraphs="1" />
+  <div v-if="isShown" class="issues">
+    <Placeholder v-if="isLoading" :paragraphs="1" />
     <div else v-for="comment in comments" :key="comment">
       <Comment :username="comment.user.login" :text="comment.title" />
     </div>
@@ -12,7 +12,6 @@
 import { Toggler } from '../toggler'
 import { Comment } from '../comment'
 import { Placeholder } from '../placeholder'
-import { mapState } from 'vuex'
 
 export default {
   name: 'Issues',
@@ -31,17 +30,16 @@ export default {
     comments: {
       type: Array,
       required: false
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
     }
-  },
-  computed: {
-    ...mapState({
-      isIssuesLoading: (state) => state.starred.issues.isLoading
-    })
   },
   methods: {
     toggleIssues (isOpened) {
       this.isShown = isOpened
-      this.$emit('onToggleIssues', this.shown)
+      if (!this.comments) this.$emit('onToggleIssues', this.shown)
     }
   }
 }

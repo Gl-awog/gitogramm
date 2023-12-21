@@ -7,7 +7,7 @@
       <slot name="s-story"></slot>
     </div>
     <div class="feed__comments">
-      <Issues :comments="comments" @onToggleIssues="this.$emit('loadIssues')" />
+      <Issues :comments="comments" :isLoading="isIssuesLoading" @onToggleIssues="this.$emit('loadIssues')" />
     </div>
     <time class="feed__date">{{ date }} </time>
   </article>
@@ -16,6 +16,7 @@
 <script>
 import { Issues } from '../issues'
 import { User } from '../user'
+import { mapState } from 'vuex'
 
 export default {
   name: 'feed',
@@ -41,6 +42,11 @@ export default {
       type: Array,
       required: false
     }
+  },
+  computed: {
+    ...mapState({
+      isIssuesLoading: (state) => state.starred.issues.isLoading
+    })
   }
 }
 </script>
