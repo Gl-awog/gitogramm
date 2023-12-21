@@ -1,12 +1,12 @@
 <template>
   <div class="userinfo">
     <User :username="username" :avatar="avatar" />
-    <Placeholder v-if="isLoading" :isSimple="true" :paragraphs="1"  />
+    <Placeholder v-if="isLoading" :isSimple="true" :paragraphs="1" />
     <ul v-else class="userinfo__stats">
       <li class="userinfo__stats-a">
         <em>{{ public_repos }}</em> <router-link to="/user/repositories">repositories</router-link>
       </li>
-      <li class="userinfo__stats-a" >
+      <li class="userinfo__stats-a">
         <em>{{ following }}</em> <router-link to="/user/following"> following</router-link>
       </li>
       <li class="userinfo__stats-fio">{{ fio }}</li>
@@ -96,6 +96,23 @@ export default {
     white-space: nowrap;
     font-size: 24px;
     font-weight: 700;
+  }
+
+  @media (max-width:900px) {
+
+    :deep(.user__avatar) {
+      width: 62px;
+      height: 62px;
+    }
+
+    :deep(.user__name) {
+      font-size: 18px;
+      left: 78px;
+    }
+
+    &__stats {
+      margin-top: 26px;
+    }
   }
 }
 </style>

@@ -328,29 +328,32 @@ export default {
   .userpage {
     display: block;
 
+    &__content > h2 {
+      display: none;
+    }
+
     &:before {
       display: none;
     }
 
     &__aside {
       width: 100%;
+      background:#FAFAFA;
+      padding:0 16px 20px;
 
       h2 {
         display: none;
       }
 
-      :deep(.user__avatar) {
-        width: 90px;
-        height: 90px;
-      }
     }
 
     &__content {
       width: 100%;
-      padding: 0;
+      padding: 20px 16px;
 
-      h2 {
-        display: none;
+      .story h2 {
+        font-size: 16px;
+        margin-bottom: 8px;
       }
     }
   }
@@ -397,11 +400,16 @@ export default {
 @media (max-width: 900px) {
   .g-main {
     border-top: none;
+    padding-top:0;
     background: linear-gradient(
       180deg,
       rgba(0, 0, 0, 0) calc(100% - 30px),
       rgba(0, 0, 0, 0.17) 100%
     );
+  }
+
+  .g-container {
+    padding:0;
   }
 }
 </style>

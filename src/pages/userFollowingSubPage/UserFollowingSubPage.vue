@@ -87,7 +87,7 @@ export default {
   &-item {
     :deep(.user) {
       position: relative;
-      margin: 0 20px 16px 0;
+      margin: 0 20px 0px 0;
     }
 
     :deep(.user__avatar) {
@@ -102,6 +102,25 @@ export default {
       white-space: nowrap;
       font-size: 18px;
       font-weight: 500;
+    }
+  }
+
+  @media (max-width: 900px) {
+    &-item {
+      :deep(.user__avatar) {
+        width: 56px;
+        height: 56px;
+      }
+
+      :deep(.user__name) {
+        font-size: 14px;
+        left:74px;
+        top:5px;
+      }
+
+      &__type {
+        margin-top: 30px;
+      }
     }
   }
 }

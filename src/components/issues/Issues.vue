@@ -1,4 +1,4 @@
-<template>  
+<template>
   <Toggler @onToggle="toggleIssues"></Toggler>
   <div v-if="isShown" class="issues">
     <Placeholder v-if="isLoading" :paragraphs="1" />

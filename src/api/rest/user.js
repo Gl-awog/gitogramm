@@ -23,45 +23,30 @@ export const getAccessTokenByPersonalCode = (code) =>
 
 export const getUser = () => {
   return makeRequest({
-    url: '/user',
-    headers: {
-      Authorization: `token ${localStorage.getItem('token')}`
-    }
+    url: '/user'
   })
 }
 
 export const getUserRepos = ({ owner }) => {
   return makeRequest({
-    url: `/users/${owner}/repos`,
-    headers: {
-      Authorization: `token ${localStorage.getItem('token')}`
-    }
+    url: `/users/${owner}/repos`
   })
 }
 
 export const getUserFollowing = ({ owner }) => {
   return makeRequest({
-    url: `/users/${owner}/following`,
-    headers: {
-      Authorization: `token ${localStorage.getItem('token')}`
-    }
+    url: `/users/${owner}/following`
   })
 }
 
 export const setFollowing = ({ owner }) =>
   makeRequest({
     url: `/user/following/${owner}`,
-    method: 'put',
-    headers: {
-      Authorization: `token ${localStorage.getItem('token')}`
-    }
+    method: 'put'
   })
 
 export const unsetFollowing = ({ owner }) =>
   makeRequest({
     url: `/user/following/${owner}`,
-    method: 'delete',
-    headers: {
-      Authorization: `token ${localStorage.getItem('token')}`
-    }
+    method: 'delete'
   })
