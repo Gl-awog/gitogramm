@@ -49,7 +49,7 @@
             :date="convertDateToReadable(item.updated_at)"
             :storyIndex="0"
             :comments="item.issues"
-            @onToggleIssues="
+            @loadIssues="
               !item.issues && fetchIssuesForRepo({
                 id: item.id,
                 owner: item.owner.login,
