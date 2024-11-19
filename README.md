@@ -33,3 +33,7 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 https://gl-awog.github.io/gitogramm/dist/
+
+
+DEMO:
+https://gl-awog.github.io/gitogramm/dist/#/
